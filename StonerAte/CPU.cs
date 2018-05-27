@@ -14,18 +14,33 @@ using System.Text;
 
 namespace StonerAte
 {
+    /// <summary>
+    /// Represents the main class of the emulator
+    /// </summary>
     public partial class CPU
     {
+        //4k bytes of RAM
         public byte[] memory = new byte[4096];
+        //16 8 bit registers. V[F] not to be used for general use
         public byte[] V = new byte[16];
+        //Temp storage for reading rom into RAM
         public byte[] romBytes;
+        //Represents the graphics to draw
         public byte[,] gfx =  new byte[64,32];
+        //16 length stack to store PC in when jumping to subroutines
         public short[] stack = new short[16];
+        //Index register
         public byte I;
+        //PC - Memory location of current instruction
         public short pc;
+        //Current level of stack in use
         public short sp;
+        //Current opcode in operation
         public string opcode;
         
+        /// <summary>
+        /// Initialize all memory to expcted defaults for begin of execution
+        /// </summary>
         public void initialize()
         {
             pc = 0x200;
@@ -59,6 +74,10 @@ namespace StonerAte
             //TODO: Load fontset
         }
 
+        /// <summary>
+        /// Loads a specified ROM from /roms to memory ready for execution
+        /// </summary>
+        /// <param name="name">Name of rom minus the filetype(assumed .ch8)</param>
         public void LoadRom(string name)
         {
             romBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/roms/{name}.ch8");
@@ -69,8 +88,11 @@ namespace StonerAte
             }
 
         }
-
-        public void ProgramLoop()
+        
+        /// <summary>
+        /// Emulates a CPU cycle of fetch, decode and execute
+        /// </summary>
+        public void EmulateCycle()
         {
             //Store current opcode in a format we like
             opcode = memory[pc].ToString("X2") + memory[pc + 1].ToString("X2");

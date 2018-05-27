@@ -5,6 +5,9 @@ namespace StonerAte.Tests
     [TestFixture]
     public class Tests
     {
+        /// <summary>
+        /// Verifies that a rom is loaded into RAM correctly
+        /// </summary>
         [Test]
         public void LoadRom()
         {
@@ -23,6 +26,9 @@ namespace StonerAte.Tests
             }
         }
         
+        /// <summary>
+        /// Verifies that we can jump to a different memory location
+        /// </summary>
         [Test]
         public void JP_1nnn()
         {
@@ -35,6 +41,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(jump_to, cpu.pc);
         }
 
+        /// <summary>
+        /// Verifies that we can return from a subroutine
+        /// </summary>
         [Test]
         public void RET_00EE()
         {
@@ -53,6 +62,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(pc_expect, cpu.pc);
         }
 
+        /// <summary>
+        /// Verifies that we can call a subroutine
+        /// </summary>
         [Test]
         public void CALL_2nnn()
         {
@@ -67,6 +79,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(address, cpu.pc);
         }
 
+        /// <summary>
+        /// Verifies that we skip next instruction if Vx = k - Pass condition
+        /// </summary>
         [Test]
         public void SE_3xkk_PASS()
         {
@@ -79,6 +94,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x202, cpu.pc);
         }
         
+        /// <summary>
+        /// Verifies that we (dont) skip next instruction if Vx = k - Fail condition
+        /// </summary>
         [Test]
         public void SE_3xkk_FAIL()
         {
@@ -91,6 +109,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x200, cpu.pc);
         }
         
+        /// <summary>
+        /// Verifies that we skip next instruction if Vx != k -  Pass condition
+        /// </summary>
         [Test]
         public void SNE_4xkk_PASS()
         {
@@ -103,6 +124,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x202, cpu.pc);
         }
         
+        /// <summary>
+        /// Verifies that we skip next instruction if Vx != k -  Fail condition
+        /// </summary>
         [Test]
         public void SNE_4xkk_FAIL()
         {
@@ -115,6 +139,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x200, cpu.pc);
         }
 
+        /// <summary>
+        /// Verifies that we skip next instruction if Vx = Vy - Pass condition
+        /// </summary>
         [Test]
         public void SE_5xy0_PASS()
         {
@@ -128,6 +155,9 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x202, cpu.pc);
         }
         
+        /// <summary>
+        /// Verifies that we skip next instruction if Vx = Vy - Fail condition
+        /// </summary>
         [Test]
         public void SE_5xy0_FAIL()
         {
