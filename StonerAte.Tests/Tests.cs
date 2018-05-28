@@ -234,5 +234,122 @@ namespace StonerAte.Tests
             Assert.AreEqual(0x011, cpu.V[2]);
         }
 
+        /// <summary>
+        /// Verifies that we can perform an AND operation on two registers
+        /// </summary>
+        [Test]
+        public void AND_8xy2_FAIL()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x001;
+            cpu.V[4] = 0x010;
+            
+            cpu.AND_8xy2("2", "4");
+            
+            Assert.AreEqual(0x000, cpu.V[2]);
+        }
+
+        [Test]
+        public void AND_8xy2_PASS()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x001;
+            cpu.V[4] = 0x001;
+            
+            cpu.AND_8xy2("2", "4");
+            
+            Assert.AreEqual(0x001, cpu.V[2]);
+        }
+        
+        /// <summary>
+        /// Verifies that we can perform an AND operation on two registers
+        /// </summary>
+        [Test]
+        public void XOR_8xy3()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x001;
+            cpu.V[4] = 0x010;
+            
+            cpu.XOR_8xy3("2", "4");
+            
+            Assert.AreEqual(0x011, cpu.V[2]);
+        }
+
+        /// <summary>
+        /// Verifies that we can add the values of two registers together
+        /// </summary>
+        [Test]
+        public void ADD_8xy4()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            cpu.V[2] = 0x001;
+            
+            cpu.ADD_8xy4("1", "2");
+            
+            Assert.AreEqual(0x002, cpu.V[1]);
+        }
+        
+        [Test]
+        public void ADD_8xy4_CARRY()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x0DD;
+            cpu.V[2] = 0x0DD;
+            
+            cpu.ADD_8xy4("1", "2");
+            
+            Assert.AreEqual(0x0BA, cpu.V[1]);
+            Assert.AreEqual(0x001, cpu.V[15]);
+        }
+        
+        /// <summary>
+        /// Verifies that we can subtract the values of two registers
+        /// </summary>
+        [Test]
+        public void SUB_8xy5()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            cpu.V[2] = 0x001;
+            
+            cpu.SUB_8xy5("1", "2");
+            
+            Assert.AreEqual(0x000, cpu.V[1]);
+        }
+        
+        [Test]
+        public void SUB_8xy5_BORROW()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x002;
+            cpu.V[2] = 0x001;
+            
+            cpu.SUB_8xy5("1", "2");
+            
+            Assert.AreEqual(0x001, cpu.V[1]);
+            Assert.AreEqual(0x001, cpu.V[15]);
+        }
+
+        [Test]
+        public void SHR_8xy6()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x011;
+            
+            cpu.SHR_8xy6("0", "1");
+            
+            Assert.AreEqual(0x008, cpu.V[0]);
+            Assert.AreEqual(0x001, cpu.V[15]);
+        }
     }
 }

@@ -123,5 +123,75 @@ namespace StonerAte
                 (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] |
                         V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
         }
+        
+        /// <summary>
+        /// Performs an AND operation on Vx and Vy then stores the result in Vx
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void AND_8xy2(string x, string y)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] &
+                        V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+        }
+
+        /// <summary>
+        /// Performs on exclsive OR operation on Vx and Vy then stores the result in Vx
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void XOR_8xy3(string x, string y)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] ^
+                        V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);   
+        }
+
+        /// <summary>
+        /// Adds values of Vx and Vy, stores result in Vx. Vf is set if result is greator than 8 bits(255)
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void ADD_8xy4(string x, string y)
+        {
+            var result = V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] +
+                         V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)];
+            if (result <= 255)
+            {
+                V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte)result;
+            }
+            else
+            {
+                V[15] = 1;
+                V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte)result;
+            }
+        }
+
+        /// <summary>
+        /// Subtracts Vy from Vx, sets VF to 1 if Vy < Vx
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void SUB_8xy5(string x, string y)
+        {
+            if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] >
+                V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)])
+            {
+                V[15] = 1;
+            }
+
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte)(V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] -
+                V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+        }
+
+        public void SHR_8xy6(string x, string y)
+        {
+            V[15] = (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] >> 1);
+
+        }
     }
 }
