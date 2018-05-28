@@ -7,8 +7,9 @@ namespace StonerAte
         public static void Main(string[] args)
         {
             CPU cpu = new CPU();
+            GPU gpu = new GPU();
             
-            cpu.initialize();
+            cpu.initialize(gpu);
             cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
             var test = true;

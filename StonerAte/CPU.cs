@@ -1,7 +1,7 @@
 ﻿/*Chip 8 mem map
  *
  * 0x000 Start of memory
- * reserved for interp (inc fontset from 0 to something)
+ * reserved for interp (inc fontset from 0 to something)    
  * 0x200 start of ROM
  * 0x600 start of ETI600 ROM
  * 0xFFF end of memory
@@ -59,16 +59,19 @@ namespace StonerAte
         public short sp;
         //Current opcode in operation
         public string opcode;
+
+        private GPU gpu;
         
         /// <summary>
         /// Initialize all memory to expcted defaults for begin of execution
         /// </summary>
-        public void initialize()
+        public void initialize(GPU _gpu = null)
         {
             pc = 0x200;
             I = 0;
             sp = 0;
             opcode = "0x000";
+            gpu = _gpu;
             
             for (var i = 0; i < memory.Length; i++)
             {
@@ -125,7 +128,7 @@ namespace StonerAte
                 switch (opcode)
                 {
                     case "00E0":
-                        CLS_00E00();
+                        CLS_00E0();
                         break;
                     case "00EE":
                         RET_00EE();

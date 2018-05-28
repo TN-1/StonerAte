@@ -9,13 +9,14 @@ namespace StonerAte
         /// <summary>
         /// Clears the graphics display
         /// </summary>
-        private void CLS_00E00()
+        private void CLS_00E0()
         {
             for (var x = 0; x < gfx.GetLength(0); x++)
             {
                 for (var y = 0; y < gfx.GetLength(1); y++)
                 {
                     gfx[x, y] = 0x000;
+                    
                 }
             }
         }
