@@ -133,39 +133,50 @@ namespace StonerAte
                                 break;
                             case "6":
                                 Console.WriteLine($"LD V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                LD_6xkk(opcode.Substring(1,1), Convert.ToByte(opcode.Substring(2,2)));
                                 break;
                             case "7":
                                 Console.WriteLine($"ADD V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                ADD_7xkk(opcode.Substring(1,1), Convert.ToByte(opcode.Substring(2,2)));
                                 break;
                             case "8":
                                 switch (opcode.Substring(3, 1))
                                 {
                                     case "0":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        LD_8xy0(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "1":
                                         Console.WriteLine($"OR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        OR_8xy1(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "2":
                                         Console.WriteLine($"AND V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                         AND_8xy2(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "3":
                                         Console.WriteLine($"XOR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        XOR_8xy3(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "4":
                                         Console.WriteLine($"ADD V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        ADD_8xy4(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "5":
                                         Console.WriteLine($"SUB V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        SUB_8xy5(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "6":
                                         Console.WriteLine($"SHR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        SHR_8xy6(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "7":
                                         Console.WriteLine($"SUBN V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        SUB_8xy7(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "E":
                                         Console.WriteLine($"SHL V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
+                                        SHL_8xyE(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);

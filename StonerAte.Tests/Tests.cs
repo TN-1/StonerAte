@@ -340,6 +340,36 @@ namespace StonerAte.Tests
         }
 
         [Test]
+        public void SUB_8xy7()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            cpu.V[2] = 0x001;
+            
+            cpu.SUB_8xy7("1", "2");
+            
+            Assert.AreEqual(0x000, cpu.V[1]);
+        }
+        
+        [Test]
+        public void SUB_8xy7_BORROW()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            cpu.V[2] = 0x002;
+            
+            cpu.SUB_8xy7("1", "2");
+            
+            Assert.AreEqual(0x001, cpu.V[1]);
+            Assert.AreEqual(0x001, cpu.V[15]);
+        }        
+        
+        /// <summary>
+        /// Verifies that we can shift right
+        /// </summary>
+        [Test]
         public void SHR_8xy6()
         {
             CPU cpu = new CPU();
@@ -349,6 +379,22 @@ namespace StonerAte.Tests
             cpu.SHR_8xy6("0", "1");
             
             Assert.AreEqual(0x008, cpu.V[0]);
+            Assert.AreEqual(0x001, cpu.V[15]);
+        }
+        
+        /// <summary>
+        /// Verifies that we can shift left
+        /// </summary>
+        [Test]
+        public void SHL_8xyE()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            
+            cpu.SHL_8xyE("0", "1");
+            
+            Assert.AreEqual(0x002, cpu.V[0]);
             Assert.AreEqual(0x001, cpu.V[15]);
         }
     }

@@ -185,12 +185,48 @@ namespace StonerAte
                 (byte)(V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] -
                 V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
         }
-
+        
+        /// <summary>
+        /// Shifts Vy right one bit and stores in Vx, Stores least significant bit in Vf
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         public void SHR_8xy6(string x, string y)
         {
             V[15] = (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] >> 1);
+
+        }
+        
+        /// <summary>
+        /// Subtracts Vx from Vy, sets VF to 1 if Vy > Vx
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void SUB_8xy7(string x, string y)
+        {
+            if (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] >
+                V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)])
+            {
+                V[15] = 1;
+            }
+
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte)(V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] -
+                       V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)]);
+        }
+        
+        /// <summary>
+        /// Shifts Vy left one bit and stores in Vx, Stores least significant bit in Vf
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        public void SHL_8xyE(string x, string y)
+        {
+            V[15] = (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] << 1);
 
         }
     }
