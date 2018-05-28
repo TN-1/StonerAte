@@ -4,6 +4,8 @@ namespace StonerAte
 {
     public partial class CPU
     {
+        Random rnd = new Random();
+        
         /// <summary>
         /// Clears the graphics display
         /// </summary>
@@ -228,6 +230,45 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] << 1);
 
+        }
+
+        /// <summary>
+        /// Skip next instruction if Vx != Vy
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void SNE_9xy0(string x, string y)
+        {
+            if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] != V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)])
+                pc = (short)(pc + 2);   
+        }
+
+        /// <summary>
+        /// Set register I to n
+        /// </summary>
+        /// <param name="n"></param>
+        public void LD_Annn(byte n)
+        {
+            I = n;
+        }
+
+        /// <summary>
+        /// Set PC to n + V0
+        /// </summary>
+        /// <param name="n"></param>
+        public void JP_Bnnn(short n)
+        {
+            pc = (short)(n + V[0]);
+        }
+
+        /// <summary>
+        /// Sets Vx to a rnd number + k
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="k">Value to add to number</param>
+        public void RND_Cxkk(string x, byte k)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte) (rnd.Next(0, 255) + k);
         }
     }
 }

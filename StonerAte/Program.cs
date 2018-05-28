@@ -11,6 +11,11 @@ namespace StonerAte
             cpu.initialize();
             cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
+            var test = true;
+            while (test)
+            {
+                cpu.EmulateCycle();
+            }
         }
     }
 }

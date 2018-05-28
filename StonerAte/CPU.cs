@@ -1,7 +1,7 @@
 ﻿/*Chip 8 mem map
  *
  * 0x000 Start of memory
- * reserved for interp
+ * reserved for interp (inc fontset from 0 to something)
  * 0x200 start of ROM
  * 0x600 start of ETI600 ROM
  * 0xFFF end of memory
@@ -9,6 +9,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -21,6 +22,27 @@ namespace StonerAte
     {
         //4k bytes of RAM
         public byte[] memory = new byte[4096];
+
+        private byte[] fontset =
+        {
+            0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+            0x20, 0x60, 0x20, 0x20, 0x70, // 1
+            0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+            0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+            0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+            0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+            0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+            0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+            0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+            0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+            0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+            0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+            0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+            0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+            0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+            0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+        };
+        
         //16 8 bit registers. V[F] not to be used for general use
         public byte[] V = new byte[16];
         //Temp storage for reading rom into RAM
@@ -70,8 +92,11 @@ namespace StonerAte
                     gfx[x, y] = 0x000;
                 }
             }
-            
-            //TODO: Load fontset
+
+            for (int i = 0; i < fontset.Length; i++)
+            {
+                memory[i] = fontset[i];
+            }
         }
 
         /// <summary>
@@ -100,11 +125,9 @@ namespace StonerAte
                 switch (opcode)
                 {
                     case "00E0":
-                        Console.WriteLine("CLS");
                         CLS_00E00();
                         break;
                     case "00EE":
-                        Console.WriteLine("RET");
                         RET_00EE();
                         break;
                     default:
@@ -112,70 +135,54 @@ namespace StonerAte
                         switch (opcode.Substring(0, 1))
                         {
                             case "1":
-                                Console.WriteLine($"JP {opcode.Substring(1,3)}");
                                 JP_1nnn(opcode.Substring(1,3));
                                 break;
                             case "2":
-                                Console.WriteLine($"CALL {opcode.Substring(1,3)}");
                                 CALL_2nnn(opcode.Substring(1,3));
                                 break;
                             case "3":
-                                Console.WriteLine($"SE V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 SE_3xkk(opcode.Substring(1,1), opcode.Substring(2,2));
                                 break;
                             case "4":
-                                Console.WriteLine($"SNE V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 SNE_4xkk(opcode.Substring(1,1), opcode.Substring(2,2));
                                 break;
                             case "5":
-                                Console.WriteLine($"SE V{opcode.Substring(1,1)}, V{opcode.Substring(2,1)}");
                                 SE_5xy0(opcode.Substring(1,1), opcode.Substring(2,2));
                                 break;
                             case "6":
-                                Console.WriteLine($"LD V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
-                                LD_6xkk(opcode.Substring(1,1), Convert.ToByte(opcode.Substring(2,2)));
+                                LD_6xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
                                 break;
                             case "7":
-                                Console.WriteLine($"ADD V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
-                                ADD_7xkk(opcode.Substring(1,1), Convert.ToByte(opcode.Substring(2,2)));
+                                ADD_7xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
                                 break;
                             case "8":
                                 switch (opcode.Substring(3, 1))
                                 {
                                     case "0":
-                                        Console.WriteLine($"LD V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         LD_8xy0(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "1":
-                                        Console.WriteLine($"OR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         OR_8xy1(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "2":
-                                        Console.WriteLine($"AND V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
-                                         AND_8xy2(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        AND_8xy2(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "3":
-                                        Console.WriteLine($"XOR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         XOR_8xy3(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "4":
-                                        Console.WriteLine($"ADD V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         ADD_8xy4(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "5":
-                                        Console.WriteLine($"SUB V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         SUB_8xy5(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "6":
-                                        Console.WriteLine($"SHR V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         SHR_8xy6(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "7":
-                                        Console.WriteLine($"SUBN V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         SUB_8xy7(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     case "E":
-                                        Console.WriteLine($"SHL V{opcode.Substring(1,1)}, V{opcode.Substring(2,2)}");
                                         SHL_8xyE(opcode.Substring(1,1), opcode.Substring(2,1));
                                         break;
                                     default:
@@ -184,31 +191,34 @@ namespace StonerAte
                                 }
                                 break;
                             case "9":
-                                Console.WriteLine($"SNE V{opcode.Substring(1,1)}, V{opcode.Substring(2,1)}");
+                                SNE_9xy0(opcode.Substring(1,1), opcode.Substring(2,1));
                                 break;
                             case "A":
-                                Console.WriteLine($"LD I, {opcode.Substring(1,3)}");
+                                LD_Annn(Convert.ToByte(opcode.Substring(1,3)));
                                 break;
                             case "B":
-                                Console.WriteLine($"JP V0, {opcode.Substring(1,3)}");
+                                JP_Bnnn(Convert.ToInt16(opcode.Substring(1,3)));
                                 break;
                             case "C":
-                                Console.WriteLine($"RND V{opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                RND_Cxkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
                                 break;
                             case "D":
-                                Console.WriteLine($"DRW V{opcode.Substring(1,1)}, V{opcode.Substring(2,1)}, {opcode.Substring(3,1)}");
+                                throw new NotImplementedException();
                                 break;
                             case "E":
                                 switch (opcode.Substring(2, 2))
                                 {
                                     case "9E":
                                         Console.WriteLine($"SKP V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "A1":
                                         Console.WriteLine($"SKNP V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
+                                        throw new NotImplementedException();
                                         break;
                                 }
                                 break;
@@ -217,30 +227,39 @@ namespace StonerAte
                                 {
                                     case "07":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, DT");
+                                        throw new NotImplementedException();
                                         break;
                                     case "0A":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, K");
+                                        throw new NotImplementedException();
                                         break;
                                     case "15":
                                         Console.WriteLine($"LD DT, V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "18":
-                                        Console.WriteLine($"LD ST, V{opcode.Substring(1,1)}");
+                                        Console.WriteLine($"LD ST, V{opcode.Substring(1, 1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "1E":
                                         Console.WriteLine($"ADD I, V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "29":
                                         Console.WriteLine($"LD F, V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "33":
                                         Console.WriteLine($"LD B, V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "55":
                                         Console.WriteLine($"LD [I], V{opcode.Substring(1,1)}");
+                                        throw new NotImplementedException();
                                         break;
                                     case "65":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, [I]");
+                                        throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
@@ -256,8 +275,17 @@ namespace StonerAte
                 }
             
             //Inc PC to next instruction
-            if(opcode.Substring(0, 1) != 1.ToString())
+            if(opcode.Substring(0, 1) != 1.ToString() && opcode != "00EE" && opcode.Substring(0,1) != 2.ToString() && opcode.Substring(0,1) != "B")
                 pc = (short) (pc + 2);
+            
+            Console.Clear();
+            Console.WriteLine($"PC: {pc}, I: {I}, OpCode: {opcode}");
+            for (int i = 0; i < 16; i++)
+            {
+                Console.WriteLine($"V[{i}] = {V[i]}");
+            }
+            
+            System.Threading.Thread.Sleep(1000);
         }
     }
 }

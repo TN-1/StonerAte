@@ -4,29 +4,8 @@ using NUnit.Framework;
 namespace StonerAte.Tests
 {
     [TestFixture]
-    public class Tests
+    public class Tests_OpCodes
     {
-        /// <summary>
-        /// Verifies that a rom is loaded into RAM correctly
-        /// </summary>
-        [Test]
-        public void LoadRom()
-        {
-            CPU cpu = new CPU();
-            cpu.initialize();
-            cpu.LoadRom("Chip8 Picture");
-
-            for (var i = 0; i < 512; i++)
-            {
-                Assert.AreEqual(0x000, cpu.memory[i]);
-            }
-
-            for (int i = 0; i < cpu.romBytes.Length; i++)
-            {                                                   
-                Assert.AreEqual(cpu.romBytes[i], cpu.memory[i + 512]);
-            }
-        }
-        
         /// <summary>
         /// Verifies that we can jump to a different memory location
         /// </summary>
@@ -396,6 +375,52 @@ namespace StonerAte.Tests
             
             Assert.AreEqual(0x002, cpu.V[0]);
             Assert.AreEqual(0x001, cpu.V[15]);
+        }
+
+        /// <summary>
+        /// Verifies that we can skip next instruction if two registers are not equal
+        /// </summary>
+        [Test]
+        public void SNE_9xy0()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[1] = 0x001;
+            
+            cpu.SNE_9xy0("0", "1");
+            
+            Assert.AreEqual(0x202, cpu.pc);
+        }
+
+        /// <summary>
+        /// Verfiies that we can load a value into register I
+        /// </summary>
+        [Test]
+        public void LD_Annn()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            byte value = 0x069;
+            
+            cpu.LD_Annn(value);
+            
+            Assert.AreEqual(0x069, cpu.I);
+        }
+
+        /// <summary>
+        /// Verifies that we can jump to a certain address + register value
+        /// </summary>
+        [Test]
+        public void JP_Bnnn()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[0] = 0x020;
+            short n = 0x300;
+            
+            cpu.JP_Bnnn(n);
+            
+            Assert.AreEqual(0x320, cpu.pc);
         }
     }
 }
