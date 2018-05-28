@@ -14,7 +14,7 @@ namespace StonerAte
             var test = true;
             while (test)
             {
-                cpu.EmulateCycle();
+                GPU.init();
             }
         }
     }
