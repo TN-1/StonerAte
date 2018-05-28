@@ -25,6 +25,7 @@ namespace StonerAte
             }
 
             //Dont need this anymore, mark for GC
+            // ReSharper disable once RedundantAssignment
             romBytes = null;
 
             Console.WriteLine("Decode opcodes in memory one by one");

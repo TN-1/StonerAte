@@ -6,10 +6,10 @@ namespace StonerAte
     {
         public static void Main(string[] args)
         {
-            CPU _cpu = new CPU();
+            CPU cpu = new CPU();
             
-            _cpu.initialize();
-            _cpu.LoadRom("Chip8 Picture");
+            cpu.initialize();
+            cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
         }
     }

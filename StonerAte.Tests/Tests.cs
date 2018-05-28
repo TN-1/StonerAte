@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.ComponentModel.Design;
+using NUnit.Framework;
 
 namespace StonerAte.Tests
 {
@@ -168,6 +169,69 @@ namespace StonerAte.Tests
             cpu.SE_5xy0("4", "6");
             
             Assert.AreEqual(0x200, cpu.pc);
+        }
+
+        /// <summary>
+        /// Verifies that we can load a byte into Vx
+        /// </summary>
+        [Test]
+        public void LD_6xkk()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            byte value = 0x069;
+            
+            cpu.LD_6xkk("A", value);
+            
+            Assert.AreEqual(value, cpu.V[10]);
+        }
+
+        /// <summary>
+        /// Verifies that we can add a byte into Vx
+        /// </summary>
+        [Test]
+        public void ADD_7xkk()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x020;
+            byte value = 0x010;
+            
+            cpu.ADD_7xkk("2", value);
+            
+            Assert.AreEqual(0x030, cpu.V[2]);
+        }
+
+        /// <summary>
+        /// Verifies that we can copy a value from Vx to Vy
+        /// </summary>
+        [Test]
+        public void LD_8xy0()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x069;
+            
+            cpu.LD_8xy0("2", "D");
+            
+            Assert.AreEqual(0x069, cpu.V[2]);
+            Assert.AreEqual(0x069, cpu.V[13]);
+        }
+
+        /// <summary>
+        /// Verifies that we can perform an OR operation on two registers
+        /// </summary>
+        [Test]
+        public void OR_8xy1()
+        {
+            CPU cpu = new CPU();
+            cpu.initialize();
+            cpu.V[2] = 0x001;
+            cpu.V[4] = 0x010;
+            
+            cpu.OR_8xy1("2", "4");
+            
+            Assert.AreEqual(0x011, cpu.V[2]);
         }
 
     }

@@ -40,7 +40,7 @@ namespace StonerAte
         /// <summary>
         /// Calls a subroutine, storing current mem address in stack for return
         /// </summary>
-        /// <param name="n"><Memory address of subroutine to call/param>
+        /// <param name="n">Memory address of subroutine to call</param>
         public void CALL_2nnn(string n)
         {
             stack[sp] = pc;
@@ -79,6 +79,49 @@ namespace StonerAte
         {
             if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] == V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)])
                 pc = (short)(pc + 2);
+        }
+
+        /// <summary>
+        /// Loads a byte into Vx
+        /// </summary>
+        /// <param name="x">Register to address</param>
+        /// <param name="k">Byte to load</param>
+        public void LD_6xkk(string x, byte k)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = k;
+        }
+
+        /// <summary>
+        /// Adds a byte to Vx
+        /// </summary>
+        /// <param name="x">Register to address</param>
+        /// <param name="k">Byte to add</param>
+        public void ADD_7xkk(string x, byte k)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] += k;
+        }
+
+        /// <summary>
+        /// Copies a byte from Vx to Vy
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void LD_8xy0(string x, string y)
+        {
+            V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] =
+                V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)];
+        }
+
+        /// <summary>
+        /// Performs an OR operation on Vx and Vy then stores the result in Vx
+        /// </summary>
+        /// <param name="x">Vx</param>
+        /// <param name="y">Vy</param>
+        public void OR_8xy1(string x, string y)
+        {
+            V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
+                (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] |
+                        V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
         }
     }
 }
