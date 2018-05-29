@@ -6,15 +6,17 @@ namespace StonerAte
 {
     public class GPU
     {
-        static Label[] TV = new Label[36];
-        static private CPU cpu;
+        private static Label[] _tv = new Label[36];
+        private static CPU cpu;
+        private static Window main;
         
         public static void init(CPU _cpu)
         {
             Application.Init();
             cpu = _cpu;
             //Create the Window
-            Window main = new Window("StonerAte");
+            
+            main = new Window("StonerAte");
             main.DefaultSize = new Gdk.Size(600,600);
             main.Resizable = false;
              
@@ -26,8 +28,8 @@ namespace StonerAte
             scrolledWindow.Add(textView);
             for (int i = 0; i < 36; i++)
             {
-                TV[i] = new Label();
-                statusTable.Attach(TV[i], 1, 2 , Convert.ToUInt32(i), 1 + Convert.ToUInt32(i));
+                _tv[i] = new Label();
+                statusTable.Attach(_tv[i], 1, 2 , Convert.ToUInt32(i), 1 + Convert.ToUInt32(i));
             }
             Label labelPC = new Label("PC: ");
             Label labelSP = new Label("SP: ");
@@ -80,7 +82,7 @@ namespace StonerAte
             //Show Everything
             main.ShowAll();
 
-            Thread thread = new Thread(new ThreadStart(runCPU));
+            Thread thread = new Thread(runCPU);
             thread.Start();
             Application.Run();
             
@@ -91,7 +93,19 @@ namespace StonerAte
             var meh = true;
             while (meh)
             {
-                cpu.EmulateCycle();
+                try
+                {
+                    cpu.EmulateCycle();
+                }
+                catch (Exception e)
+                {
+                    MessageDialog dialog = new MessageDialog(main, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, $"Exception: {e.Message}");
+                    dialog.Close += delegate
+                    {
+                        Application.Quit();
+                    };
+                    dialog.Show();
+                }
             }
         }
 
@@ -99,13 +113,13 @@ namespace StonerAte
         {
             for (int i = 0; i < cpu.V.Length; i++)
             {
-                TV[i].Text = cpu.V[i].ToString("X2");
+                _tv[i].Text = cpu.V[i].ToString("X2");
             }
 
-            TV[17].Text = cpu.pc.ToString("X2");
-            TV[18].Text = cpu.sp.ToString("X2");
-            TV[19].Text = cpu.I.ToString("X2");
-            TV[20].Text = cpu.opcode;
+            _tv[17].Text = cpu.pc.ToString("X2");
+            _tv[18].Text = cpu.sp.ToString("X2");
+            _tv[19].Text = cpu.I.ToString("X2");
+            _tv[20].Text = cpu.opcode;
         }
     }
 }
