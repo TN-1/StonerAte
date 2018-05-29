@@ -326,7 +326,7 @@ namespace StonerAte.Tests
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x001;
             
-            cpu.SUB_8xy7("1", "2");
+            cpu.SUBN_8xy7("1", "2");
             
             Assert.AreEqual(0x000, cpu.V[1]);
         }
@@ -339,7 +339,7 @@ namespace StonerAte.Tests
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x002;
             
-            cpu.SUB_8xy7("1", "2");
+            cpu.SUBN_8xy7("1", "2");
             
             Assert.AreEqual(0x001, cpu.V[1]);
             Assert.AreEqual(0x001, cpu.V[15]);

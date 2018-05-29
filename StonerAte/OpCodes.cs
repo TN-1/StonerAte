@@ -16,9 +16,9 @@ namespace StonerAte
                 for (var y = 0; y < gfx.GetLength(1); y++)
                 {
                     gfx[x, y] = 0x000;
-                    
                 }
             }
+            
         }
 
         /// <summary>
@@ -29,6 +29,7 @@ namespace StonerAte
             pc = stack[sp];
             if(sp != 0)
                 sp--;
+            
         }
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace StonerAte
         public void JP_1nnn(string n)
         {
             pc = Convert.ToInt16(n);
+            
         }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace StonerAte
             stack[sp] = pc;
             pc = Convert.ToInt16(n);
             sp++;
+            
         }
 
         /// <summary>
@@ -60,6 +63,7 @@ namespace StonerAte
         {
             if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] == Convert.ToByte(k))
                 pc = (short)(pc + 2);
+            
         }
 
         /// <summary>
@@ -71,6 +75,7 @@ namespace StonerAte
         {
             if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] != Convert.ToByte(k))
                 pc = (short)(pc + 2);
+            
         }
 
         /// <summary>
@@ -82,6 +87,7 @@ namespace StonerAte
         {
             if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] == V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)])
                 pc = (short)(pc + 2);
+            
         }
 
         /// <summary>
@@ -92,6 +98,7 @@ namespace StonerAte
         public void LD_6xkk(string x, byte k)
         {
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = k;
+            
         }
 
         /// <summary>
@@ -102,6 +109,7 @@ namespace StonerAte
         public void ADD_7xkk(string x, byte k)
         {
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] += k;
+            
         }
 
         /// <summary>
@@ -113,6 +121,7 @@ namespace StonerAte
         {
             V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] =
                 V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)];
+            
         }
 
         /// <summary>
@@ -125,6 +134,7 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] |
                         V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            
         }
         
         /// <summary>
@@ -137,6 +147,7 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] &
                         V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            
         }
 
         /// <summary>
@@ -149,6 +160,7 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] ^
                         V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);   
+            
         }
 
         /// <summary>
@@ -169,6 +181,7 @@ namespace StonerAte
                 V[15] = 1;
                 V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte)result;
             }
+            
         }
 
         /// <summary>
@@ -187,6 +200,7 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte)(V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] -
                 V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            
         }
         
         /// <summary>
@@ -199,6 +213,7 @@ namespace StonerAte
             V[15] = (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] >> 1);
+            
 
         }
         
@@ -207,7 +222,7 @@ namespace StonerAte
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
-        public void SUB_8xy7(string x, string y)
+        public void SUBN_8xy7(string x, string y)
         {
             if (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] >
                 V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)])
@@ -218,6 +233,7 @@ namespace StonerAte
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte)(V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] -
                        V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)]);
+            
         }
         
         /// <summary>
@@ -230,7 +246,7 @@ namespace StonerAte
             V[15] = (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
                 (byte) (V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)] << 1);
-
+            
         }
 
         /// <summary>
@@ -242,6 +258,7 @@ namespace StonerAte
         {
             if (V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] != V[Int32.Parse(y, System.Globalization.NumberStyles.HexNumber)])
                 pc = (short)(pc + 2);   
+            
         }
 
         /// <summary>
@@ -251,6 +268,7 @@ namespace StonerAte
         public void LD_Annn(byte n)
         {
             I = n;
+            
         }
 
         /// <summary>
@@ -260,6 +278,7 @@ namespace StonerAte
         public void JP_Bnnn(short n)
         {
             pc = (short)(n + V[0]);
+            
         }
 
         /// <summary>
@@ -270,6 +289,7 @@ namespace StonerAte
         public void RND_Cxkk(string x, byte k)
         {
             V[Int32.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte) (rnd.Next(0, 255) + k);
+            
         }
     }
 }

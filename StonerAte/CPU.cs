@@ -12,6 +12,8 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Web;
 
 namespace StonerAte
 {
@@ -71,7 +73,8 @@ namespace StonerAte
             I = 0;
             sp = 0;
             opcode = "0x000";
-            gpu = _gpu;
+
+            gpu = _gpu ?? new GPU();
             
             for (var i = 0; i < memory.Length; i++)
             {
@@ -122,6 +125,9 @@ namespace StonerAte
         /// </summary>
         public void EmulateCycle()
         {
+            bool DrawFlag = false;
+            
+            //TODO: See if we can solve the SIGSEV when NotImpleExcep is thrown more than once. No rush though :)
             //Store current opcode in a format we like
             opcode = memory[pc].ToString("X2") + memory[pc + 1].ToString("X2");
 
@@ -129,9 +135,11 @@ namespace StonerAte
                 {
                     case "00E0":
                         CLS_00E0();
+                        gpu.AddText("CLS");
                         break;
                     case "00EE":
                         RET_00EE();
+                        gpu.AddText("RET");
                         break;
                     default:
                         //YAY for nesting! LOL JKS
@@ -139,89 +147,110 @@ namespace StonerAte
                         {
                             case "1":
                                 JP_1nnn(opcode.Substring(1,3));
+                                gpu.AddText($"JP {opcode.Substring(1,3)}");
                                 break;
                             case "2":
                                 CALL_2nnn(opcode.Substring(1,3));
+                                gpu.AddText($"CALL {opcode.Substring(1,3)}");
                                 break;
                             case "3":
                                 SE_3xkk(opcode.Substring(1,1), opcode.Substring(2,2));
+                                gpu.AddText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "4":
                                 SNE_4xkk(opcode.Substring(1,1), opcode.Substring(2,2));
+                                gpu.AddText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "5":
                                 SE_5xy0(opcode.Substring(1,1), opcode.Substring(2,2));
+                                gpu.AddText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "6":
                                 LD_6xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
+                                gpu.AddText($"LD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "7":
                                 ADD_7xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
+                                gpu.AddText($"ADD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "8":
                                 switch (opcode.Substring(3, 1))
                                 {
                                     case "0":
                                         LD_8xy0(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"LD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "1":
                                         OR_8xy1(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"OR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "2":
                                         AND_8xy2(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"AND {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "3":
                                         XOR_8xy3(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"XOR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "4":
                                         ADD_8xy4(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"ADD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "5":
                                         SUB_8xy5(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"SUB {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "6":
                                         SHR_8xy6(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"SHR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "7":
-                                        SUB_8xy7(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        SUBN_8xy7(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "E":
                                         SHL_8xyE(opcode.Substring(1,1), opcode.Substring(2,1));
+                                        gpu.AddText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
+                                        gpu.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
                             case "9":
                                 SNE_9xy0(opcode.Substring(1,1), opcode.Substring(2,1));
+                                gpu.AddText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                 break;
                             case "A":
                                 LD_Annn(Convert.ToByte(opcode.Substring(1,3)));
+                                gpu.AddText($"LD {opcode.Substring(1,3)}");
                                 break;
                             case "B":
                                 JP_Bnnn(Convert.ToInt16(opcode.Substring(1,3)));
+                                gpu.AddText($"JP {opcode.Substring(1,3)}");
                                 break;
                             case "C":
                                 RND_Cxkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
+                                gpu.AddText($"RND {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "D":
-                                throw new NotImplementedException();
+                                //throw new NotImplementedException();
                                 break;
                             case "E":
                                 switch (opcode.Substring(2, 2))
                                 {
                                     case "9E":
                                         Console.WriteLine($"SKP V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "A1":
                                         Console.WriteLine($"SKNP V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
-                                        throw new NotImplementedException();
+                                        gpu.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
@@ -230,47 +259,49 @@ namespace StonerAte
                                 {
                                     case "07":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, DT");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "0A":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, K");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "15":
                                         Console.WriteLine($"LD DT, V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "18":
                                         Console.WriteLine($"LD ST, V{opcode.Substring(1, 1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "1E":
                                         Console.WriteLine($"ADD I, V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "29":
                                         Console.WriteLine($"LD F, V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "33":
                                         Console.WriteLine($"LD B, V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "55":
                                         Console.WriteLine($"LD [I], V{opcode.Substring(1,1)}");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     case "65":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, [I]");
-                                        throw new NotImplementedException();
+                                        //throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
+                                        gpu.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
                             default:
                                 Console.WriteLine("Invalid opcode " + opcode);
+                                gpu.AddText($"INVALID {opcode}");
                                 break;
                         }
 
@@ -281,6 +312,9 @@ namespace StonerAte
             if(opcode.Substring(0, 1) != 1.ToString() && opcode != "00EE" && opcode.Substring(0,1) != 2.ToString() && opcode.Substring(0,1) != "B")
                 pc = (short) (pc + 2);
             
+            if(DrawFlag)
+                gpu.Draw(this);
+            
             Console.Clear();
             Console.WriteLine($"PC: {pc}, I: {I}, OpCode: {opcode}");
             for (int i = 0; i < 16; i++)
@@ -289,7 +323,8 @@ namespace StonerAte
             }
 
             gpu.Update(this);
-            System.Threading.Thread.Sleep(1000);
+            //TODO: Replace with variable clock timing to allow speed control because why not
+            Thread.Sleep(1000);
         }
     }
 }

@@ -9,6 +9,7 @@ namespace StonerAte
         private static Label[] _tv = new Label[36];
         private static CPU cpu;
         private static Window main;
+        private static TextBuffer text;
         
         public static void init(CPU _cpu)
         {
@@ -19,12 +20,17 @@ namespace StonerAte
             main = new Window("StonerAte");
             main.DefaultSize = new Gdk.Size(600,600);
             main.Resizable = false;
+            
+            //TODO: FIX THIS!!!
+            main.DestroyEvent += delegate { Application.Quit(); };
              
             Table mainTable = new Table(2, 2, false);
             Table statusTable = new Table(36, 2, false);
             DrawingArea drawingArea = new DrawingArea();
             ScrolledWindow scrolledWindow = new ScrolledWindow();
+            text = new TextBuffer(null);
             TextView textView = new TextView();
+            textView.Buffer = text;
             scrolledWindow.Add(textView);
             for (int i = 0; i < 36; i++)
             {
@@ -85,7 +91,6 @@ namespace StonerAte
             Thread thread = new Thread(runCPU);
             thread.Start();
             Application.Run();
-            
         }
 
         static public void runCPU()
@@ -97,29 +102,41 @@ namespace StonerAte
                 {
                     cpu.EmulateCycle();
                 }
-                catch (Exception e)
+                catch(Exception e)
                 {
-                    MessageDialog dialog = new MessageDialog(main, DialogFlags.DestroyWithParent, MessageType.Error, ButtonsType.Close, $"Exception: {e.Message}");
-                    dialog.Close += delegate
-                    {
-                        Application.Quit();
-                    };
-                    dialog.Show();
+                    meh = false;
+                    AddText_static($"ERROR: {e.Message}");
                 }
             }
         }
 
+        public static void AddText_static(string s)
+        {
+            text.Text = $"{text.Text}{s}\n";
+        }
+
+        public void AddText(string s)
+        {
+            text.Text = $"{text.Text}{s}\n";
+        }
+        
         public void Update(CPU cpu)
         {
             for (int i = 0; i < cpu.V.Length; i++)
             {
-                _tv[i].Text = cpu.V[i].ToString("X2");
+                _tv[i].Text = cpu.V[i].ToString("X4");
             }
 
-            _tv[17].Text = cpu.pc.ToString("X2");
-            _tv[18].Text = cpu.sp.ToString("X2");
-            _tv[19].Text = cpu.I.ToString("X2");
+            _tv[17].Text = cpu.pc.ToString("X4");
+            _tv[18].Text = cpu.sp.ToString("X4");
+            _tv[19].Text = cpu.I.ToString("X4");
             _tv[20].Text = cpu.opcode;
+        }
+
+        public void Draw(CPU cpu)
+        {
+            //TODO: Implement this
+            throw new NotImplementedException();
         }
     }
 }
