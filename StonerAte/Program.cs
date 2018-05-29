@@ -12,11 +12,7 @@ namespace StonerAte
             cpu.initialize(gpu);
             cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
-            var test = true;
-            while (test)
-            {
-                GPU.init();
-            }
+            GPU.init(cpu);
         }
     }
 }

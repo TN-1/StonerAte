@@ -1,14 +1,18 @@
 ﻿using System;
+using System.Threading;
 using Gtk;
 
 namespace StonerAte
 {
     public class GPU
     {
-        public static void init()
+        static Label[] TV = new Label[36];
+        static private CPU cpu;
+        
+        public static void init(CPU _cpu)
         {
             Application.Init();
- 
+            cpu = _cpu;
             //Create the Window
             Window main = new Window("StonerAte");
             main.DefaultSize = new Gdk.Size(600,600);
@@ -20,15 +24,15 @@ namespace StonerAte
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             TextView textView = new TextView();
             scrolledWindow.Add(textView);
-            TextView[] TV = new TextView[36];
-            ScrolledWindow[] window = new ScrolledWindow[36];
             for (int i = 0; i < 36; i++)
             {
-                TV[i] = new TextView();
-                window[i] = new ScrolledWindow();
-                window[i].Add(TV[i]);
-                statusTable.Attach(window[i], 1, 2 , Convert.ToUInt32(i), 1 + Convert.ToUInt32(i));
+                TV[i] = new Label();
+                statusTable.Attach(TV[i], 1, 2 , Convert.ToUInt32(i), 1 + Convert.ToUInt32(i));
             }
+            Label labelPC = new Label("PC: ");
+            Label labelSP = new Label("SP: ");
+            Label labelI = new Label("I: ");
+            Label labelOpcode = new Label("Opcode: ");
             Label labelV0 = new Label("V0: ");
             Label labelV1 = new Label("V1: ");
             Label labelV2 = new Label("V2: ");
@@ -62,6 +66,10 @@ namespace StonerAte
             statusTable.Attach(labelVD, 0, 1, 13, 14);
             statusTable.Attach(labelVE, 0, 1, 14, 15);
             statusTable.Attach(labelVF, 0, 1, 15, 16);
+            statusTable.Attach(labelPC, 0, 1, 17, 18);
+            statusTable.Attach(labelSP, 0, 1, 18, 19);
+            statusTable.Attach(labelI, 0, 1, 19, 20);
+            statusTable.Attach(labelOpcode, 0, 1, 20, 21);
 
             mainTable.Attach(statusTable, 1, 2, 0, 2);
             mainTable.Attach(drawingArea, 0, 1, 0, 1);
@@ -71,8 +79,33 @@ namespace StonerAte
             
             //Show Everything
             main.ShowAll();
- 
+
+            Thread thread = new Thread(new ThreadStart(runCPU));
+            thread.Start();
             Application.Run();
+            
+        }
+
+        static public void runCPU()
+        {
+            var meh = true;
+            while (meh)
+            {
+                cpu.EmulateCycle();
+            }
+        }
+
+        public void Update(CPU cpu)
+        {
+            for (int i = 0; i < cpu.V.Length; i++)
+            {
+                TV[i].Text = cpu.V[i].ToString("X2");
+            }
+
+            TV[17].Text = cpu.pc.ToString("X2");
+            TV[18].Text = cpu.sp.ToString("X2");
+            TV[19].Text = cpu.I.ToString("X2");
+            TV[20].Text = cpu.opcode;
         }
     }
 }

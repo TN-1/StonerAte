@@ -23,7 +23,7 @@ namespace StonerAte
         //4k bytes of RAM
         public byte[] memory = new byte[4096];
 
-        private byte[] fontset =
+        private readonly byte[] fontset =
         {
             0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
             0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -96,7 +96,7 @@ namespace StonerAte
                 }
             }
 
-            for (int i = 0; i < fontset.Length; i++)
+            for (var i = 0; i < fontset.Length; i++)
             {
                 memory[i] = fontset[i];
             }
@@ -287,7 +287,8 @@ namespace StonerAte
             {
                 Console.WriteLine($"V[{i}] = {V[i]}");
             }
-            
+
+            gpu.Update(this);
             System.Threading.Thread.Sleep(1000);
         }
     }
