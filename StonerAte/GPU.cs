@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading;
 using Gtk;
+using Cairo;
+using Gdk;
+using Window = Gtk.Window;
 
 namespace StonerAte
 {
@@ -10,6 +13,7 @@ namespace StonerAte
         private static CPU cpu;
         private static Window main;
         private static TextBuffer text;
+        private static DrawingArea drawingArea;
         
         public static void init(CPU _cpu)
         {
@@ -26,7 +30,10 @@ namespace StonerAte
              
             Table mainTable = new Table(2, 2, false);
             Table statusTable = new Table(36, 2, false);
-            DrawingArea drawingArea = new DrawingArea();
+            drawingArea = new DrawingArea();        
+            drawingArea.SetSizeRequest(128,64);
+            ;
+
             ScrolledWindow scrolledWindow = new ScrolledWindow();
             text = new TextBuffer(null);
             TextView textView = new TextView();
@@ -90,7 +97,7 @@ namespace StonerAte
 
             Thread thread = new Thread(runCPU);
             thread.Start();
-            Application.Run();
+                Application.Run();
         }
 
         static public void runCPU()
@@ -105,14 +112,9 @@ namespace StonerAte
                 catch(Exception e)
                 {
                     meh = false;
-                    AddText_static($"ERROR: {e.Message}");
+                    text.Text = $"{text.Text}ERROR: {e.Message}\n";
                 }
             }
-        }
-
-        public static void AddText_static(string s)
-        {
-            text.Text = $"{text.Text}{s}\n";
         }
 
         public void AddText(string s)
@@ -131,12 +133,6 @@ namespace StonerAte
             _tv[18].Text = cpu.sp.ToString("X4");
             _tv[19].Text = cpu.I.ToString("X4");
             _tv[20].Text = cpu.opcode;
-        }
-
-        public void Draw(CPU cpu)
-        {
-            //TODO: Implement this
-            throw new NotImplementedException();
         }
     }
 }

@@ -63,6 +63,8 @@ namespace StonerAte
         public string opcode;
 
         private GPU gpu;
+
+        private bool DrawFlag;
         
         /// <summary>
         /// Initialize all memory to expcted defaults for begin of execution
@@ -125,8 +127,7 @@ namespace StonerAte
         /// </summary>
         public void EmulateCycle()
         {
-            bool DrawFlag = false;
-            
+           
             //TODO: See if we can solve the SIGSEV when NotImpleExcep is thrown more than once. No rush though :)
             //Store current opcode in a format we like
             opcode = memory[pc].ToString("X2") + memory[pc + 1].ToString("X2");
@@ -311,10 +312,7 @@ namespace StonerAte
             //Inc PC to next instruction
             if(opcode.Substring(0, 1) != 1.ToString() && opcode != "00EE" && opcode.Substring(0,1) != 2.ToString() && opcode.Substring(0,1) != "B")
                 pc = (short) (pc + 2);
-            
-            if(DrawFlag)
-                gpu.Draw(this);
-            
+
             Console.Clear();
             Console.WriteLine($"PC: {pc}, I: {I}, OpCode: {opcode}");
             for (int i = 0; i < 16; i++)
