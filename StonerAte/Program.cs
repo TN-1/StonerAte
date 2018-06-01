@@ -1,4 +1,5 @@
 ﻿using System;
+using Eto.Forms;
 
 namespace StonerAte
 {
@@ -7,12 +8,11 @@ namespace StonerAte
         public static void Main(string[] args)
         {
             CPU cpu = new CPU();
-            GPU gpu = new GPU();
             
-            cpu.initialize(gpu);
+            cpu.initialize();
             cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
-            GPU.init(cpu);
+            new Application().Run(new MainForm(cpu));
         }
     }
 }
