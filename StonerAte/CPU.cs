@@ -49,8 +49,6 @@ namespace StonerAte
         public byte[] V = new byte[16];
         //Temp storage for reading rom into RAM
         public byte[] romBytes;
-        //Represents the graphics to draw
-        public byte[,] gfx =  new byte[64,32];
         //16 length stack to store PC in when jumping to subroutines
         public short[] stack = new short[16];
         //Index register
@@ -61,6 +59,8 @@ namespace StonerAte
         public short sp;
         //Current opcode in operation
         public string opcode;
+        //Represents graphics screen
+        public int [,] gfx = new int[64,32];
         
         private bool DrawFlag;
         
@@ -89,17 +89,20 @@ namespace StonerAte
                 stack[i] = 0x000;
             }
 
+            for (var i = 0; i < fontset.Length; i++)
+            {
+                memory[i] = fontset[i];
+            }
+            
             for (var x = 0; x < gfx.GetLength(0); x++)
             {
                 for (var y = 0; y < gfx.GetLength(1); y++)
                 {
-                    gfx[x, y] = 0x000;
+                    if (x % 2 == 0)
+                        gfx[x, y] = 1;
+                    else
+                        gfx[x, y] = 0;
                 }
-            }
-
-            for (var i = 0; i < fontset.Length; i++)
-            {
-                memory[i] = fontset[i];
             }
         }
 
@@ -132,11 +135,11 @@ namespace StonerAte
                 {
                     case "00E0":
                         CLS_00E0();
-                        form.addText("CLS");
+                        form.AddText("CLS");
                         break;
                     case "00EE":
                         RET_00EE();
-                        form.addText("RET");
+                        form.AddText("RET");
                         break;
                     default:
                         //YAY for nesting! LOL JKS
@@ -144,110 +147,110 @@ namespace StonerAte
                         {
                             case "1":
                                 JP_1nnn(opcode.Substring(1,3));
-                                form.addText($"JP {opcode.Substring(1,3)}");
+                                form.AddText($"JP {opcode.Substring(1,3)}");
                                 break;
                             case "2":
                                 CALL_2nnn(opcode.Substring(1,3));
-                                form.addText($"CALL {opcode.Substring(1,3)}");
+                                form.AddText($"CALL {opcode.Substring(1,3)}");
                                 break;
                             case "3":
                                 SE_3xkk(opcode.Substring(1,1), opcode.Substring(2,2));
-                                form.addText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                form.AddText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "4":
                                 SNE_4xkk(opcode.Substring(1,1), opcode.Substring(2,2));
-                                form.addText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                form.AddText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "5":
                                 SE_5xy0(opcode.Substring(1,1), opcode.Substring(2,2));
-                                form.addText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
+                                form.AddText($"SE {opcode.Substring(1,1)}, {opcode.Substring(2,2)}");
                                 break;
                             case "6":
                                 LD_6xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
-                                form.addText($"LD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
+                                form.AddText($"LD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "7":
                                 ADD_7xkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
-                                form.addText($"ADD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
+                                form.AddText($"ADD {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "8":
                                 switch (opcode.Substring(3, 1))
                                 {
                                     case "0":
                                         LD_8xy0(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"LD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"LD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "1":
                                         OR_8xy1(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"OR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"OR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "2":
                                         AND_8xy2(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"AND {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"AND {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "3":
                                         XOR_8xy3(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"XOR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"XOR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "4":
                                         ADD_8xy4(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"ADD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"ADD {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "5":
                                         SUB_8xy5(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"SUB {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"SUB {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "6":
                                         SHR_8xy6(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"SHR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"SHR {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "7":
                                         SUBN_8xy7(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     case "E":
                                         SHL_8xyE(opcode.Substring(1,1), opcode.Substring(2,1));
-                                        form.addText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                        form.AddText($"SHL {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
-                                        form.addText($"INVALID {opcode}");
+                                        form.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
                             case "9":
                                 SNE_9xy0(opcode.Substring(1,1), opcode.Substring(2,1));
-                                form.addText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
+                                form.AddText($"SNE {opcode.Substring(1,1)}, {opcode.Substring(2,1)}");
                                 break;
                             case "A":
                                 LD_Annn(Convert.ToByte(opcode.Substring(1,3)));
-                                form.addText($"LD {opcode.Substring(1,3)}");
+                                form.AddText($"LD {opcode.Substring(1,3)}");
                                 break;
                             case "B":
                                 JP_Bnnn(Convert.ToInt16(opcode.Substring(1,3)));
-                                form.addText($"JP {opcode.Substring(1,3)}");
+                                form.AddText($"JP {opcode.Substring(1,3)}");
                                 break;
                             case "C":
                                 RND_Cxkk(opcode.Substring(1,1), Byte.Parse(opcode.Substring(2,2), NumberStyles.HexNumber));
-                                form.addText($"RND {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
+                                form.AddText($"RND {opcode.Substring(1,1)}, {String.Format(opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "D":
-                                //throw new NotImplementedException();
+                                throw new NotImplementedException();
                                 break;
                             case "E":
                                 switch (opcode.Substring(2, 2))
                                 {
                                     case "9E":
                                         Console.WriteLine($"SKP V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "A1":
                                         Console.WriteLine($"SKNP V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
-                                        form.addText($"INVALID {opcode}");
+                                        form.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
@@ -256,49 +259,49 @@ namespace StonerAte
                                 {
                                     case "07":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, DT");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "0A":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, K");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "15":
                                         Console.WriteLine($"LD DT, V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "18":
                                         Console.WriteLine($"LD ST, V{opcode.Substring(1, 1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "1E":
                                         Console.WriteLine($"ADD I, V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "29":
                                         Console.WriteLine($"LD F, V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "33":
                                         Console.WriteLine($"LD B, V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "55":
                                         Console.WriteLine($"LD [I], V{opcode.Substring(1,1)}");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     case "65":
                                         Console.WriteLine($"LD V{opcode.Substring(1,1)}, [I]");
-                                        //throw new NotImplementedException();
+                                        throw new NotImplementedException();
                                         break;
                                     default:
                                         Console.WriteLine("Invalid opcode " + opcode);
-                                        form.addText($"INVALID {opcode}");
+                                        form.AddText($"INVALID {opcode}");
                                         break;
                                 }
                                 break;
                             default:
                                 Console.WriteLine("Invalid opcode " + opcode);
-                                form.addText($"INVALID {opcode}");
+                                form.AddText($"INVALID {opcode}");
                                 
                                 break;
                         }

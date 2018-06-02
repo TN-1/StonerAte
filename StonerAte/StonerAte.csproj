@@ -48,8 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CPU.cs" />
-    <Compile Include="Decoder.cs" />
-    <None Include="GPU-old.cs" />
+    <None Include="Decoder.cs" />
     <Compile Include="GPU.cs" />
     <Compile Include="OpCodes.cs" />
     <Compile Include="Program.cs" />

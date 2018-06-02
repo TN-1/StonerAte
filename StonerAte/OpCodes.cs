@@ -15,7 +15,7 @@ namespace StonerAte
             {
                 for (var y = 0; y < gfx.GetLength(1); y++)
                 {
-                    gfx[x, y] = 0x000;
+                    gfx[x, y] = 0;
                 }
             }
             
@@ -38,8 +38,7 @@ namespace StonerAte
         /// <param name="n">Memory address to jump too</param>
         public void JP_1nnn(string n)
         {
-            pc = Convert.ToInt16(n);
-            
+            pc = Convert.ToInt16(n, 16); 
         }
 
         /// <summary>
@@ -49,7 +48,7 @@ namespace StonerAte
         public void CALL_2nnn(string n)
         {
             stack[sp] = pc;
-            pc = Convert.ToInt16(n);
+            pc = Convert.ToInt16(n, 16);
             sp++;
             
         }
