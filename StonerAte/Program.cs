@@ -3,13 +3,16 @@ using Eto.Forms;
 
 namespace StonerAte
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        /// <summary>
+        /// Entry point for the emulator. Not much is done here expect pass off to smarter places
+        /// </summary>
+        public static void Main()
         {
-            CPU cpu = new CPU();
+            Cpu cpu = new Cpu();
             
-            cpu.initialize();
+            cpu.Initialize();
             cpu.LoadRom("Chip8 Picture");
             Console.WriteLine("Init complete");
             new Application().Run(new MainForm(cpu, 10));

@@ -2,8 +2,11 @@
 
 namespace StonerAte.Tests
 {
+    /// <summary>
+    /// Tests to ensure that the CPU core works as designed
+    /// </summary>
     [TestFixture]
-    public class Tests_CPU
+    public class TestsCpu
     {
         /// <summary>
         /// Verifies that a rom is loaded into RAM correctly
@@ -11,19 +14,19 @@ namespace StonerAte.Tests
         [Test]
         public void LoadRom()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.LoadRom("Chip8 Picture");
 
             //TODO: Account for fontset in this test
             for (var i = 100; i < 512; i++)
             {
-                Assert.AreEqual(0x000, cpu.memory[i]);
+                Assert.AreEqual(0x000, cpu.Memory[i]);
             }
 
-            for (int i = 0; i < cpu.romBytes.Length; i++)
+            for (int i = 0; i < cpu.RomBytes.Length; i++)
             {                                                   
-                Assert.AreEqual(cpu.romBytes[i], cpu.memory[i + 512]);
+                Assert.AreEqual(cpu.RomBytes[i], cpu.Memory[i + 512]);
             }
         }
 

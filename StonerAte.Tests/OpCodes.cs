@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.Design;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 namespace StonerAte.Tests
 {
+    /// <summary>
+    /// Tests responsible for ensuring that OpCode methods work as expected
+    /// </summary>
     [TestFixture]
-    public class Tests_OpCodes
+    public class TestsOpCodes
     {
         /// <summary>
         /// Verifies that we can jump to a different memory location
@@ -13,12 +15,12 @@ namespace StonerAte.Tests
         public void JP_1nnn()
         {
             short jump_to = 0x250;
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             
             cpu.JP_1nnn(jump_to.ToString());
             
-            Assert.AreEqual(jump_to, cpu.pc);
+            Assert.AreEqual(jump_to, cpu.Pc);
         }
 
         /// <summary>
@@ -27,19 +29,19 @@ namespace StonerAte.Tests
         [Test]
         public void RET_00EE()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             short sp_expect = 0;
             short pc_expect = 0x250;
-            cpu.sp = 1;
-            cpu.stack[1] = 0x250;
+            cpu.Sp = 1;
+            cpu.Stack[1] = 0x250;
             
-            Assert.AreEqual(0x200, cpu.pc);
+            Assert.AreEqual(0x200, cpu.Pc);
             
             cpu.RET_00EE();
             
-            Assert.AreEqual(sp_expect, cpu.sp);
-            Assert.AreEqual(pc_expect, cpu.pc);
+            Assert.AreEqual(sp_expect, cpu.Sp);
+            Assert.AreEqual(pc_expect, cpu.Pc);
         }
 
         /// <summary>
@@ -48,15 +50,15 @@ namespace StonerAte.Tests
         [Test]
         public void CALL_2nnn()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             short address = 0x300;
             
             cpu.CALL_2nnn(address.ToString());
             
-            Assert.AreEqual(1, cpu.sp);
-            Assert.AreEqual(0x200, cpu.stack[0]);
-            Assert.AreEqual(address, cpu.pc);
+            Assert.AreEqual(1, cpu.Sp);
+            Assert.AreEqual(0x200, cpu.Stack[0]);
+            Assert.AreEqual(address, cpu.Pc);
         }
 
         /// <summary>
@@ -65,13 +67,13 @@ namespace StonerAte.Tests
         [Test]
         public void SE_3xkk_PASS()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             
             cpu.SE_3xkk("4", "16");
             
-            Assert.AreEqual(0x202, cpu.pc);
+            Assert.AreEqual(0x202, cpu.Pc);
         }
         
         /// <summary>
@@ -80,13 +82,13 @@ namespace StonerAte.Tests
         [Test]
         public void SE_3xkk_FAIL()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             
             cpu.SE_3xkk("4", "11");
             
-            Assert.AreEqual(0x200, cpu.pc);
+            Assert.AreEqual(0x200, cpu.Pc);
         }
         
         /// <summary>
@@ -95,13 +97,13 @@ namespace StonerAte.Tests
         [Test]
         public void SNE_4xkk_PASS()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             
             cpu.SNE_4xkk("4", "11");
             
-            Assert.AreEqual(0x202, cpu.pc);
+            Assert.AreEqual(0x202, cpu.Pc);
         }
         
         /// <summary>
@@ -110,13 +112,13 @@ namespace StonerAte.Tests
         [Test]
         public void SNE_4xkk_FAIL()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             
             cpu.SNE_4xkk("4", "16");
             
-            Assert.AreEqual(0x200, cpu.pc);
+            Assert.AreEqual(0x200, cpu.Pc);
         }
 
         /// <summary>
@@ -125,14 +127,14 @@ namespace StonerAte.Tests
         [Test]
         public void SE_5xy0_PASS()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             cpu.V[14] = 0x010;
             
             cpu.SE_5xy0("4", "E");
             
-            Assert.AreEqual(0x202, cpu.pc);
+            Assert.AreEqual(0x202, cpu.Pc);
         }
         
         /// <summary>
@@ -141,13 +143,13 @@ namespace StonerAte.Tests
         [Test]
         public void SE_5xy0_FAIL()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[4] = 0x010;
             
             cpu.SE_5xy0("4", "6");
             
-            Assert.AreEqual(0x200, cpu.pc);
+            Assert.AreEqual(0x200, cpu.Pc);
         }
 
         /// <summary>
@@ -156,8 +158,8 @@ namespace StonerAte.Tests
         [Test]
         public void LD_6xkk()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             byte value = 0x069;
             
             cpu.LD_6xkk("A", value);
@@ -171,8 +173,8 @@ namespace StonerAte.Tests
         [Test]
         public void ADD_7xkk()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x020;
             byte value = 0x010;
             
@@ -187,8 +189,8 @@ namespace StonerAte.Tests
         [Test]
         public void LD_8xy0()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x069;
             
             cpu.LD_8xy0("2", "D");
@@ -203,8 +205,8 @@ namespace StonerAte.Tests
         [Test]
         public void OR_8xy1()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x001;
             cpu.V[4] = 0x010;
             
@@ -219,8 +221,8 @@ namespace StonerAte.Tests
         [Test]
         public void AND_8xy2_FAIL()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x001;
             cpu.V[4] = 0x010;
             
@@ -232,8 +234,8 @@ namespace StonerAte.Tests
         [Test]
         public void AND_8xy2_PASS()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x001;
             cpu.V[4] = 0x001;
             
@@ -248,8 +250,8 @@ namespace StonerAte.Tests
         [Test]
         public void XOR_8xy3()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[2] = 0x001;
             cpu.V[4] = 0x010;
             
@@ -264,8 +266,8 @@ namespace StonerAte.Tests
         [Test]
         public void ADD_8xy4()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x001;
             
@@ -277,8 +279,8 @@ namespace StonerAte.Tests
         [Test]
         public void ADD_8xy4_CARRY()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x0DD;
             cpu.V[2] = 0x0DD;
             
@@ -294,8 +296,8 @@ namespace StonerAte.Tests
         [Test]
         public void SUB_8xy5()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x001;
             
@@ -307,8 +309,8 @@ namespace StonerAte.Tests
         [Test]
         public void SUB_8xy5_BORROW()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x002;
             cpu.V[2] = 0x001;
             
@@ -321,8 +323,8 @@ namespace StonerAte.Tests
         [Test]
         public void SUB_8xy7()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x001;
             
@@ -334,8 +336,8 @@ namespace StonerAte.Tests
         [Test]
         public void SUB_8xy7_BORROW()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             cpu.V[2] = 0x002;
             
@@ -351,8 +353,8 @@ namespace StonerAte.Tests
         [Test]
         public void SHR_8xy6()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x011;
             
             cpu.SHR_8xy6("0", "1");
@@ -367,8 +369,8 @@ namespace StonerAte.Tests
         [Test]
         public void SHL_8xyE()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             
             cpu.SHL_8xyE("0", "1");
@@ -383,13 +385,13 @@ namespace StonerAte.Tests
         [Test]
         public void SNE_9xy0()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[1] = 0x001;
             
             cpu.SNE_9xy0("0", "1");
             
-            Assert.AreEqual(0x202, cpu.pc);
+            Assert.AreEqual(0x202, cpu.Pc);
         }
 
         /// <summary>
@@ -398,8 +400,8 @@ namespace StonerAte.Tests
         [Test]
         public void LD_Annn()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             byte value = 0x069;
             
             cpu.LD_Annn(value);
@@ -413,14 +415,14 @@ namespace StonerAte.Tests
         [Test]
         public void JP_Bnnn()
         {
-            CPU cpu = new CPU();
-            cpu.initialize();
+            Cpu cpu = new Cpu();
+            cpu.Initialize();
             cpu.V[0] = 0x020;
             short n = 0x300;
             
             cpu.JP_Bnnn(n);
             
-            Assert.AreEqual(0x320, cpu.pc);
+            Assert.AreEqual(0x320, cpu.Pc);
         }
     }
 }

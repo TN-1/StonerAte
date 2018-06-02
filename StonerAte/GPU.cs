@@ -5,16 +5,14 @@ using Eto.Drawing;
 
 namespace StonerAte
 {
-    public class GPU
-    {
-
-    }
-
+    /// <summary>
+    /// Represents the main form and the methods responsible for graphics work
+    /// </summary>
     public class MainForm : Form
     {
         private Drawable _drawable = new Drawable();
         private TextArea _textArea = new TextArea();
-        private CPU _cpu;
+        private Cpu _cpu;
         private int _scaleFactor;
         private Label[] _regLabels = new Label[16];
         private Label[] _basicsLabels = new Label[5];
@@ -22,7 +20,7 @@ namespace StonerAte
         private TextBox[] _regBoxs = new TextBox[16];
         private bool _drawFlag = false;
 
-        public MainForm(CPU cpu, int scale)
+        public MainForm(Cpu cpu, int scale)
         {
             _cpu = cpu;
             _scaleFactor = scale;
@@ -90,8 +88,11 @@ namespace StonerAte
 
             Content = layout;
 
-            var thread = new Thread(RunCpu);
-            thread.Start();
+            LoadComplete += (sender, args) =>
+            {
+                var thread = new Thread(RunCpu);
+                thread.Start();
+            };
         }
 
         private void RunCpu()
@@ -120,10 +121,10 @@ namespace StonerAte
 
         private void Update()
         {
-            _basicsBoxs[0].Text = _cpu.opcode;
+            _basicsBoxs[0].Text = _cpu.Opcode;
             _basicsBoxs[1].Text = $"{_cpu.I:X4}";
-            _basicsBoxs[2].Text = $"{_cpu.pc:X4}";
-            _basicsBoxs[3].Text = $"{_cpu.sp:X4}";
+            _basicsBoxs[2].Text = $"{_cpu.Pc:X4}";
+            _basicsBoxs[3].Text = $"{_cpu.Sp:X4}";
             _basicsBoxs[4].Text = $"{_drawFlag}";
 
             for (var i = 0; i < _regBoxs.Length; i++)
@@ -139,11 +140,11 @@ namespace StonerAte
             var black = new Color(0, 0, 0);
             _drawable.Paint += (sender, e) =>
             {
-                for (var x = 0; x < _cpu.gfx.GetLength(0); x++)
+                for (var x = 0; x < _cpu.Gfx.GetLength(0); x++)
                 {
-                    for (var y = 0; y < _cpu.gfx.GetLength(1); y++)
+                    for (var y = 0; y < _cpu.Gfx.GetLength(1); y++)
                     {
-                        if (_cpu.gfx[x, y] == 1)
+                        if (_cpu.Gfx[x, y] == 1)
                         {
                             e.Graphics.FillRectangle(black, x * _scaleFactor, y * _scaleFactor, _scaleFactor,
                                 _scaleFactor);
