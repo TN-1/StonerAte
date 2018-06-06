@@ -18,7 +18,6 @@ namespace StonerAte
         private Label[] _basicsLabels = new Label[5];
         private TextBox[] _basicsBoxs = new TextBox[5];
         private TextBox[] _regBoxs = new TextBox[16];
-        private bool _drawFlag = false;
 
         public MainForm(Cpu cpu, int scale)
         {
@@ -87,7 +86,7 @@ namespace StonerAte
             layout.Add(registerBox, 250, (32 * _scaleFactor) + 20);
 
             Content = layout;
-
+            
             LoadComplete += (sender, args) =>
             {
                 var thread = new Thread(RunCpu);
@@ -97,10 +96,9 @@ namespace StonerAte
 
         private void RunCpu()
         {
-            bool isRunning = true;
-            Draw();
+            var isRunning = true;
             while (isRunning)
-            {
+            {                
                 try
                 {
                     _cpu.EmulateCycle(this);
@@ -125,7 +123,7 @@ namespace StonerAte
             _basicsBoxs[1].Text = $"{_cpu.I:X4}";
             _basicsBoxs[2].Text = $"{_cpu.Pc:X4}";
             _basicsBoxs[3].Text = $"{_cpu.Sp:X4}";
-            _basicsBoxs[4].Text = $"{_drawFlag}";
+            _basicsBoxs[4].Text = $"{_cpu.DrawFlag}";
 
             for (var i = 0; i < _regBoxs.Length; i++)
             {
@@ -133,10 +131,8 @@ namespace StonerAte
             }
         }
 
-        private void Draw()
+        public void Draw()
         {
-            if (_drawFlag == false)
-                return;
             var black = new Color(0, 0, 0);
             _drawable.Paint += (sender, e) =>
             {

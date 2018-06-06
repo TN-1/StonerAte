@@ -63,6 +63,8 @@ namespace StonerAte
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
         public int Freq = 1;
+        //If flag is true, then we update the screen. Otherwise, we wont.
+        public bool DrawFlag = false;
                 
         /// <summary>
         /// Initialize all memory to expcted defaults for begin of execution
@@ -235,7 +237,8 @@ namespace StonerAte
                                 form.AddText($"RND {Opcode.Substring(1,1)}, {string.Format(Opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "D":
-                                DRW_Dxyn(Opcode.Substring(1,1), Opcode.Substring(2,1), Convert.ToByte(Opcode.Substring(3,1)));
+                                DRW_Dxyn(Opcode.Substring(1, 1), Opcode.Substring(2, 1),
+                                    Convert.ToByte(Opcode.Substring(3, 1)), form);
                                 form.AddText($"DRW V{Opcode.Substring(1,1)}, V{Opcode.Substring(2,1)}, {Opcode.Substring(3,1)}");
                                 break;
                             case "E":
@@ -263,6 +266,7 @@ namespace StonerAte
                                         form.AddText($"LD V{Opcode.Substring(1,1)}, DT");
                                         break;
                                     case "0A":
+                                        //TODO: Fix this
                                         LD_Fx0A(Opcode.Substring(1,1));
                                         form.AddText($"LD V{Opcode.Substring(1,1)}, K");
                                         break;

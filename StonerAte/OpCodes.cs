@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace StonerAte
 {
@@ -297,9 +301,30 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         /// <param name="y">Vy</param>
         /// <param name="n">Length of sprite</param>
-        public void DRW_Dxyn(string x, string y, byte n)
+        public void DRW_Dxyn(string x, string y, byte n, MainForm form)
         {
-            throw new NotImplementedException();
+            I = 0x001;
+            //TODO: We need to add wrap around support, and collision detection
+            var sprite = new List<byte>();
+            var x_Loc = V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)];
+            var y_Loc = V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)];
+            
+            for (int i = I; i < I + n; i++)
+            {
+                sprite.Add(Memory[i]);
+            }
+
+            for (int i = 0; i < sprite.Count; i++)
+            {
+                var bits = new BitArray(BitConverter.GetBytes(sprite[i]).ToArray());
+                for (int k = 0; k < 4; k++)
+                {
+                    var value = Convert.ToInt32(bits[k + 4]) ^ Gfx[x_Loc + k, y_Loc + i];
+                    Gfx[x_Loc + k, y_Loc + i] = value;
+                }
+            }
+            
+            form.Draw();
         }
 
         /// <summary>
