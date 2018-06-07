@@ -52,7 +52,7 @@ namespace StonerAte
         //16 length stack to store PC in when jumping to subroutines
         public short[] Stack = new short[16];
         //Index register
-        public byte I;
+        public short I;
         //PC - Memory location of current instruction
         public short Pc;
         //Current level of stack in use
@@ -62,7 +62,7 @@ namespace StonerAte
         //Represents graphics screen
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
-        public int Freq = 1;
+        private int _freq = 10;
         //If flag is true, then we update the screen. Otherwise, we wont.
         public bool DrawFlag = false;
                 
@@ -100,10 +100,7 @@ namespace StonerAte
             {
                 for (var y = 0; y < Gfx.GetLength(1); y++)
                 {
-                    if (x % 2 == 0)
-                        Gfx[x, y] = 1;
-                    else
-                        Gfx[x, y] = 0;
+                    Gfx[x, y] = 0;
                 }
             }
         }
@@ -114,7 +111,7 @@ namespace StonerAte
         /// <param name="name">Name of rom minus the filetype(assumed .ch8)</param>
         public void LoadRom(string name)
         {
-            RomBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/roms/{name}.ch8");
+            RomBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/roms/{name}");
             for (var i = 0; i < RomBytes.Length; i++)
             {
                 //i + 0x200 per mem map
@@ -128,8 +125,6 @@ namespace StonerAte
         /// </summary>
         public void EmulateCycle(MainForm form)
         {
-           
-            //TODO: See if we can solve the SIGSEV when NotImpleExcep is thrown more than once. No rush though :)
             //Store current opcode in a format we like
             Opcode = Memory[Pc].ToString("X2") + Memory[Pc + 1].ToString("X2");
 
@@ -225,11 +220,11 @@ namespace StonerAte
                                 form.AddText($"SNE {Opcode.Substring(1,1)}, {Opcode.Substring(2,1)}");
                                 break;
                             case "A":
-                                LD_Annn(Convert.ToByte(Opcode.Substring(1,3)));
+                                LD_Annn(short.Parse(Opcode.Substring(1,3), NumberStyles.HexNumber));
                                 form.AddText($"LD {Opcode.Substring(1,3)}");
                                 break;
                             case "B":
-                                JP_Bnnn(Convert.ToInt16(Opcode.Substring(1,3)));
+                                JP_Bnnn(short.Parse(Opcode.Substring(1,3), NumberStyles.HexNumber));
                                 form.AddText($"JP {Opcode.Substring(1,3)}");
                                 break;
                             case "C":
@@ -237,8 +232,7 @@ namespace StonerAte
                                 form.AddText($"RND {Opcode.Substring(1,1)}, {string.Format(Opcode.Substring(2,2), NumberStyles.HexNumber)}");
                                 break;
                             case "D":
-                                DRW_Dxyn(Opcode.Substring(1, 1), Opcode.Substring(2, 1),
-                                    Convert.ToByte(Opcode.Substring(3, 1)), form);
+                                DRW_Dxyn(Opcode.Substring(1, 1), Opcode.Substring(2, 1), byte.Parse(Opcode.Substring(3, 1), NumberStyles.HexNumber));
                                 form.AddText($"DRW V{Opcode.Substring(1,1)}, V{Opcode.Substring(2,1)}, {Opcode.Substring(3,1)}");
                                 break;
                             case "E":
@@ -323,7 +317,7 @@ namespace StonerAte
                 Console.WriteLine($"V[{i}] = {V[i]}");
             }
 
-            Thread.Sleep((1/Freq) * 1000);
+            Thread.Sleep((1 /_freq) * 1000);
         }
     }
 }

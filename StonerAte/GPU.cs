@@ -12,8 +12,8 @@ namespace StonerAte
     {
         private Drawable _drawable = new Drawable();
         private TextArea _textArea = new TextArea();
+        private int _taLines = 0;
         private Cpu _cpu;
-        private int _scaleFactor;
         private Label[] _regLabels = new Label[16];
         private Label[] _basicsLabels = new Label[5];
         private TextBox[] _basicsBoxs = new TextBox[5];
@@ -22,17 +22,32 @@ namespace StonerAte
         public MainForm(Cpu cpu, int scale)
         {
             _cpu = cpu;
-            _scaleFactor = scale;
+            var scaleFactor = scale;
             
             Title = "StonerAte";
             ClientSize = new Size(1000, 1000);
 
-            _drawable.Size = new Size(64 * _scaleFactor, 32 * _scaleFactor);
-            _drawable.Paint += (sender, e) => { e.Graphics.Clear(new Color(255, 255, 255)); };
+            _drawable.Size = new Size(64 * scaleFactor, 32 * scaleFactor);
+            _drawable.Paint += (sender, e) =>
+            {
+                e.Graphics.Clear(new Color(255, 255, 255));
+                
+                for (var x = 0; x < _cpu.Gfx.GetLength(0); x++)
+                {
+                    for (var y = 0; y < _cpu.Gfx.GetLength(1); y++)
+                    {
+                        if (_cpu.Gfx[x, y] == 1)
+                        {    
+                            e.Graphics.FillRectangle(new Color(0,0,0), x * scaleFactor, y * scaleFactor, scaleFactor,
+                                scaleFactor);
+                        }
+                    }
+                }
+            };
 
             _textArea.ReadOnly = true;
-            _textArea.Size = new Size(1000 - ((64 * _scaleFactor) + 30), 32 * _scaleFactor);
-
+            _textArea.Size = new Size(1000 - ((64 * scaleFactor) + 30), 32 * scaleFactor);
+            
             var basicsLayout = new DynamicLayout();
             basicsLayout.BeginVertical();
             _basicsLabels[0] = new Label {Text = "Opcode:"};
@@ -81,9 +96,9 @@ namespace StonerAte
 
             var layout = new PixelLayout();
             layout.Add(_drawable, 10, 10);
-            layout.Add(_textArea, (64 * _scaleFactor) + 20, 10);
-            layout.Add(basicsBox, 10, (32 * _scaleFactor) + 20);
-            layout.Add(registerBox, 250, (32 * _scaleFactor) + 20);
+            layout.Add(_textArea, (64 * scaleFactor) + 20, 10);
+            layout.Add(basicsBox, 10, (32 * scaleFactor) + 20);
+            layout.Add(registerBox, 250, (32 * scaleFactor) + 20);
 
             Content = layout;
             
@@ -103,6 +118,10 @@ namespace StonerAte
                 {
                     _cpu.EmulateCycle(this);
                     Update();
+                    if (!_cpu.DrawFlag)
+                        continue;
+                    _drawable.Invalidate();
+                    _cpu.DrawFlag = false;
                 }
                 catch (Exception e)
                 {
@@ -114,7 +133,13 @@ namespace StonerAte
 
         public void AddText(string s)
         {
+            if (_taLines == 100)
+            {
+                _textArea.Text = "";
+                _taLines = 0;
+            }
             _textArea.Append($"{s}\n");
+            _taLines++;
         }
 
         private void Update()
@@ -129,25 +154,6 @@ namespace StonerAte
             {
                 _regBoxs[i].Text = $"{_cpu.V[i]:X4}";
             }
-        }
-
-        public void Draw()
-        {
-            var black = new Color(0, 0, 0);
-            _drawable.Paint += (sender, e) =>
-            {
-                for (var x = 0; x < _cpu.Gfx.GetLength(0); x++)
-                {
-                    for (var y = 0; y < _cpu.Gfx.GetLength(1); y++)
-                    {
-                        if (_cpu.Gfx[x, y] == 1)
-                        {
-                            e.Graphics.FillRectangle(black, x * _scaleFactor, y * _scaleFactor, _scaleFactor,
-                                _scaleFactor);
-                        }
-                    }
-                }
-            };
         }
     }
 }
