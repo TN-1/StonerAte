@@ -77,15 +77,36 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="roms\Chip8 Picture.ch8">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\Pong (alt).ch8">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <Content Include="roms\15PUZZLE" />
+    <Content Include="roms\BLINKY" />
+    <Content Include="roms\BLITZ" />
+    <Content Include="roms\BRIX" />
+    <Content Include="roms\CONNECT4" />
+    <Content Include="roms\GUESS" />
+    <Content Include="roms\HIDDEN" />
+    <Content Include="roms\INVADERS" />
+    <Content Include="roms\KALEID" />
+    <Content Include="roms\MAZE" />
+    <Content Include="roms\MERLIN" />
+    <Content Include="roms\MISSILE" />
+    <Content Include="roms\PONG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="roms\PONG2" />
+    <Content Include="roms\PUZZLE" />
+    <Content Include="roms\SYZYGY" />
+    <Content Include="roms\TANK" />
+    <Content Include="roms\TETRIS" />
+    <Content Include="roms\TICTAC">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="roms\UFO" />
+    <Content Include="roms\VBRIX" />
+    <Content Include="roms\VERS" />
+    <Content Include="roms\WIPEOFF" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Eto\src\Eto.Gtk\Eto.Gtk.csproj">

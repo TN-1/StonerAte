@@ -1,8 +1,26 @@
-﻿using System;
+﻿/*
+StonerAte - A Chip 8 Emulator
+Copyright (C) 2018 Hamish West, hamish@hamishwest.xyz, github.com/TN-1
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace StonerAte
 {
@@ -30,10 +48,9 @@ namespace StonerAte
         /// </summary>
         public void RET_00EE()
         {
-            Pc = Stack[Sp];
             if(Sp != 0)
                 Sp--;
-            
+            Pc = Stack[Sp];            
         }
 
         /// <summary>
@@ -51,10 +68,16 @@ namespace StonerAte
         /// <param name="n">Memory address of subroutine to call</param>
         public void CALL_2nnn(string n)
         {
-            Stack[Sp] = Pc;
-            Pc = Convert.ToInt16(n, 16);
             Sp++;
-            
+
+            if (Sp > Stack.Length)
+            {
+                Sp--;
+                throw new Exception("SP exceeds length of stack");
+            }
+
+            Stack[Sp] = Pc;
+            Pc = short.Parse(n, NumberStyles.HexNumber);
         }
 
         /// <summary>
@@ -64,7 +87,7 @@ namespace StonerAte
         /// <param name="k">Value to compare too</param>
         public void SE_3xkk(string x, string k)
         {
-            if (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] == Convert.ToByte(k))
+            if (V[int.Parse(x, NumberStyles.HexNumber)] == byte.Parse(k, NumberStyles.HexNumber))
                 Pc = (short)(Pc + 2);
             
         }
@@ -76,7 +99,7 @@ namespace StonerAte
         /// <param name="k">Value to compare too</param>
         public void SNE_4xkk(string x, string k)
         {
-            if (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] != Convert.ToByte(k))
+            if (V[int.Parse(x, NumberStyles.HexNumber)] != Convert.ToByte(k))
                 Pc = (short)(Pc + 2);
             
         }
@@ -88,7 +111,7 @@ namespace StonerAte
         /// <param name="y">Register to compare too</param>
         public void SE_5xy0(string x, string y)
         {
-            if (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] == V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)])
+            if (V[int.Parse(x, NumberStyles.HexNumber)] == V[int.Parse(y, NumberStyles.HexNumber)])
                 Pc = (short)(Pc + 2);
             
         }
@@ -100,7 +123,7 @@ namespace StonerAte
         /// <param name="k">Byte to load</param>
         public void LD_6xkk(string x, byte k)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] = k;
+            V[int.Parse(x, NumberStyles.HexNumber)] = k;
             
         }
 
@@ -111,7 +134,7 @@ namespace StonerAte
         /// <param name="k">Byte to add</param>
         public void ADD_7xkk(string x, byte k)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] += k;
+            V[int.Parse(x, NumberStyles.HexNumber)] += k;
             
         }
 
@@ -122,8 +145,8 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void LD_8xy0(string x, string y)
         {
-            V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] =
-                V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)];
+            V[int.Parse(y, NumberStyles.HexNumber)] =
+                V[int.Parse(x, NumberStyles.HexNumber)];
             
         }
 
@@ -134,9 +157,9 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void OR_8xy1(string x, string y)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte) (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] |
-                        V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte) (V[int.Parse(x, NumberStyles.HexNumber)] |
+                        V[int.Parse(y, NumberStyles.HexNumber)]);
             
         }
         
@@ -147,9 +170,9 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void AND_8xy2(string x, string y)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte) (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] &
-                        V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte) (V[int.Parse(x, NumberStyles.HexNumber)] &
+                        V[int.Parse(y, NumberStyles.HexNumber)]);
             
         }
 
@@ -160,9 +183,9 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void XOR_8xy3(string x, string y)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte) (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] ^
-                        V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)]);   
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte) (V[int.Parse(x, NumberStyles.HexNumber)] ^
+                        V[int.Parse(y, NumberStyles.HexNumber)]);   
             
         }
 
@@ -173,16 +196,16 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void ADD_8xy4(string x, string y)
         {
-            var result = V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] +
-                         V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)];
+            var result = V[int.Parse(x, NumberStyles.HexNumber)] +
+                         V[int.Parse(y, NumberStyles.HexNumber)];
             if (result <= 255)
             {
-                V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte)result;
+                V[int.Parse(x, NumberStyles.HexNumber)] = (byte)result;
             }
             else
             {
                 V[15] = 1;
-                V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte)result;
+                V[int.Parse(x, NumberStyles.HexNumber)] = (byte)result;
             }
             
         }
@@ -194,15 +217,15 @@ namespace StonerAte
         /// <param name="y"></param>
         public void SUB_8xy5(string x, string y)
         {
-            if (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] >
-                V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)])
+            if (V[int.Parse(x, NumberStyles.HexNumber)] >
+                V[int.Parse(y, NumberStyles.HexNumber)])
             {
                 V[15] = 1;
             }
 
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte)(V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] -
-                V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)]);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte)(V[int.Parse(x, NumberStyles.HexNumber)] -
+                V[int.Parse(y, NumberStyles.HexNumber)]);
             
         }
         
@@ -213,9 +236,9 @@ namespace StonerAte
         /// <param name="y"></param>
         public void SHR_8xy6(string x, string y)
         {
-            V[15] = (byte) (V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte) (V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] >> 1);
+            V[15] = (byte) (V[int.Parse(y, NumberStyles.HexNumber)] & 0x00F);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte) (V[int.Parse(y, NumberStyles.HexNumber)] >> 1);
             
 
         }
@@ -227,15 +250,15 @@ namespace StonerAte
         /// <param name="y"></param>
         public void SUBN_8xy7(string x, string y)
         {
-            if (V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] >
-                V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)])
+            if (V[int.Parse(y, NumberStyles.HexNumber)] >
+                V[int.Parse(x, NumberStyles.HexNumber)])
             {
                 V[15] = 1;
             }
 
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte)(V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] -
-                       V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)]);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte)(V[int.Parse(y, NumberStyles.HexNumber)] -
+                       V[int.Parse(x, NumberStyles.HexNumber)]);
             
         }
         
@@ -246,9 +269,9 @@ namespace StonerAte
         /// <param name="y"></param>
         public void SHL_8xyE(string x, string y)
         {
-            V[15] = (byte) (V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] & 0x00F);
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] =
-                (byte) (V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)] << 1);
+            V[15] = (byte) (V[int.Parse(y, NumberStyles.HexNumber)] & 0x00F);
+            V[int.Parse(x, NumberStyles.HexNumber)] =
+                (byte) (V[int.Parse(y, NumberStyles.HexNumber)] << 1);
             
         }
 
@@ -259,7 +282,7 @@ namespace StonerAte
         /// <param name="y">Vy</param>
         public void SNE_9xy0(string x, string y)
         {
-            if (V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] != V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)])
+            if (V[int.Parse(x, NumberStyles.HexNumber)] != V[int.Parse(y, NumberStyles.HexNumber)])
                 Pc = (short)(Pc + 2);   
             
         }
@@ -268,7 +291,7 @@ namespace StonerAte
         /// Set register I to n
         /// </summary>
         /// <param name="n"></param>
-        public void LD_Annn(byte n)
+        public void LD_Annn(short n)
         {
             I = n;
             
@@ -291,7 +314,7 @@ namespace StonerAte
         /// <param name="k">Value to add to number</param>
         public void RND_Cxkk(string x, byte k)
         {
-            V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)] = (byte) (rnd.Next(0, 255) + k);
+            V[int.Parse(x, NumberStyles.HexNumber)] = (byte) (rnd.Next(0, 255) + k);
             
         }
 
@@ -301,30 +324,33 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         /// <param name="y">Vy</param>
         /// <param name="n">Length of sprite</param>
-        public void DRW_Dxyn(string x, string y, byte n, MainForm form)
+        public void DRW_Dxyn(string x, string y, byte n)
         {
-            I = 0x001;
-            //TODO: We need to add wrap around support, and collision detection
+            //TODO: Need to add collision detection
             var sprite = new List<byte>();
-            var x_Loc = V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)];
-            var y_Loc = V[int.Parse(y, System.Globalization.NumberStyles.HexNumber)];
+            var xLoc = V[int.Parse(x, NumberStyles.HexNumber)];
+            var yLoc = V[int.Parse(y, NumberStyles.HexNumber)];
             
             for (int i = I; i < I + n; i++)
             {
                 sprite.Add(Memory[i]);
             }
 
-            for (int i = 0; i < sprite.Count; i++)
+            for (var i = 0; i < sprite.Count; i++)
             {
                 var bits = new BitArray(BitConverter.GetBytes(sprite[i]).ToArray());
-                for (int k = 0; k < 4; k++)
+                for (var k = 4; k < 8; k++)
                 {
-                    var value = Convert.ToInt32(bits[k + 4]) ^ Gfx[x_Loc + k, y_Loc + i];
-                    Gfx[x_Loc + k, y_Loc + i] = value;
+                    //TODO: This is wrong, need to fix it.
+                    if (xLoc == 63)
+                        xLoc = 0;
+                    
+                    var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k, yLoc + i];
+                    Gfx[xLoc + k, yLoc + i] = value;
                 }
             }
-            
-            form.Draw();
+
+            DrawFlag = true;
         }
 
         /// <summary>
@@ -387,7 +413,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void ADD_Fx1E(string x)
         {
-            I += V[int.Parse(x, System.Globalization.NumberStyles.HexNumber)];
+            I += V[int.Parse(x, NumberStyles.HexNumber)];
         }
 
         /// <summary>
@@ -396,7 +422,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx29(string x)
         {
-            throw new NotImplementedException();
+            I = (short)(5 * V[int.Parse(x, NumberStyles.HexNumber)]);
         }
 
         /// <summary>
@@ -405,7 +431,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx33(string x)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -414,7 +440,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx55(string x)
         {
-            for (var i = 0; i < int.Parse(x, System.Globalization.NumberStyles.HexNumber); i++)
+            for (var i = 0; i < int.Parse(x, NumberStyles.HexNumber); i++)
             {
                 Memory[I + i] = V[i];
             }
@@ -426,7 +452,7 @@ namespace StonerAte
         /// <param name="x"></param>
         public void LD_Fx65(string x)
         {
-            for (var i = 0; i < int.Parse(x, System.Globalization.NumberStyles.HexNumber); i++)
+            for (var i = 0; i < int.Parse(x, NumberStyles.HexNumber); i++)
             {
                 V[i] = Memory[I + i];
             }
