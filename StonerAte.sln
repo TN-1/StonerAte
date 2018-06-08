@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StonerAte", "StonerAte\Ston
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StonerAte.Tests", "StonerAte.Tests\StonerAte.Tests.csproj", "{7C8C0A91-85E0-4C4C-B870-18EBF2572B29}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto", "Eto\src\Eto\Eto.csproj", "{7ED42D23-3656-4FB9-8D32-7CF844CC1360}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eto.Gtk", "Eto\src\Eto.Gtk\Eto.Gtk.csproj", "{A33AD3C3-B29B-4C72-9D41-E1DB2AFB5BC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{7C8C0A91-85E0-4C4C-B870-18EBF2572B29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C8C0A91-85E0-4C4C-B870-18EBF2572B29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C8C0A91-85E0-4C4C-B870-18EBF2572B29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7ED42D23-3656-4FB9-8D32-7CF844CC1360}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7ED42D23-3656-4FB9-8D32-7CF844CC1360}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7ED42D23-3656-4FB9-8D32-7CF844CC1360}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7ED42D23-3656-4FB9-8D32-7CF844CC1360}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A33AD3C3-B29B-4C72-9D41-E1DB2AFB5BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A33AD3C3-B29B-4C72-9D41-E1DB2AFB5BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A33AD3C3-B29B-4C72-9D41-E1DB2AFB5BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A33AD3C3-B29B-4C72-9D41-E1DB2AFB5BC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
