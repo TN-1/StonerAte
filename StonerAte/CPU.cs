@@ -80,7 +80,7 @@ namespace StonerAte
         //Represents graphics screen
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
-        private int _freq = 10;
+        public int Freq = 4;
         //If flag is true, then we update the screen. Otherwise, we wont.
         public bool DrawFlag = false;
                 
@@ -335,7 +335,9 @@ namespace StonerAte
                 Console.WriteLine($"V[{i}] = {V[i]}");
             }
 
-            Thread.Sleep((1 /_freq) * 1000);
+            //TODO: Figure out why the freq line is broke
+            //Thread.Sleep((1 / Freq) * 1000);
+            Thread.Sleep(250);
         }
     }
 }
