@@ -424,5 +424,7 @@ namespace StonerAte.Tests
             
             Assert.AreEqual(0x320, cpu.Pc);
         }
+        
+        
     }
 }

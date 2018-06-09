@@ -17,12 +17,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using Eto.Forms;
 using Eto.Drawing;
 
 namespace StonerAte
 {
+    /// <inheritdoc />
     /// <summary>
     /// Represents the main form and the methods responsible for graphics work
     /// </summary>
@@ -48,7 +50,7 @@ namespace StonerAte
         };
         private readonly TextBox _sTBox = new TextBox();
         private readonly TextBox _dTBox = new TextBox();
-        public bool _isRunning;
+        private bool _isRunning;
 
         public MainForm(Cpu cpu, int scale)
         {
@@ -160,12 +162,11 @@ namespace StonerAte
                 Content = controlLayout,
             };
 
-            var rom = new TextArea();
-            rom.Size = new Size(200,500);
+            var rom = new TextArea {Size = new Size(200, 500)};
             /*for (var i = 0x200; i < 4096; i =+ 2)
-            {
-                rom.Append($"{i:X4} - {_cpu.Memory[i].ToString("X2") + _cpu.Memory[i + 1].ToString("X2")}\n");
-            }*/
+{
+    rom.Append($"{i:X4} - {_cpu.Memory[i].ToString("X2") + _cpu.Memory[i + 1].ToString("X2")}\n");
+}*/
             
             var layout = new PixelLayout();
             layout.Add(_drawable, 10, 10);
@@ -192,30 +193,27 @@ namespace StonerAte
         private void RunCpu()
         {
             const bool loop = true;
-
+            const long timerSpeed = 1000 / 60;
+            var timer = new Stopwatch();
+            
             Application.Instance.Invoke(Update());
             
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             while (loop)
             {
+                timer.Stop();
                 while (_isRunning)
                 {
+                    timer.Start();
                     try
                     {
-                        //TODO: For now we can lock the main cycle to 60hz and update the timers from here,
-                        //but eventually we will need to create a second thread maybe(?) so that the timers
-                        //run at an independant speed to the main cycle.
                         _cpu.EmulateCycle(this);
-                        if (_cpu.Dt != 0)
-                            _cpu.Dt--;
-                        if (_cpu.St != 0)
-                            _cpu.St--;
-                        //TODO: make sound timer sound sound.
                         Application.Instance.Invoke(Update());
-                        if (!_cpu.DrawFlag)
-                            continue;
-                        _drawable.Invalidate();
-                        _cpu.DrawFlag = false;
+                        if (timer.ElapsedMilliseconds > timerSpeed)
+                        {
+                            TimerTick();
+                            timer.Reset();
+                        }
                     }
                     catch (Exception e)
                     {
@@ -283,6 +281,23 @@ namespace StonerAte
                 _dTBox.Text = _cpu.Dt.ToString();
                 _sTBox.Text = _cpu.St.ToString();
             };
+        }
+
+        /// <summary>
+        /// Performs a timer tick and updates graphics if required
+        /// </summary>
+        private void TimerTick()
+        {
+            if (_cpu.Dt != 0)
+                _cpu.Dt--;
+            if (_cpu.St != 0)
+                _cpu.St--;
+            //TODO: make sound timer sound sound.
+
+            if (!_cpu.DrawFlag)
+                return;
+            _drawable.Invalidate();
+            _cpu.DrawFlag = false;
         }
     }
 }

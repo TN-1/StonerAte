@@ -32,8 +32,6 @@ using System.IO;
 using System.Threading;
 using Eto.Forms;
 
-// ReSharper disable FieldCanBeMadeReadOnly.Global
-
 namespace StonerAte
 {
     /// <summary>
@@ -81,7 +79,7 @@ namespace StonerAte
         //Represents graphics screen
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
-        public const int Freq = 60;
+        public const int Freq = 240;
         //If flag is true, then we update the screen. Otherwise, we wont.
         public bool DrawFlag = false;
         //Delay and sound timers
@@ -263,7 +261,7 @@ namespace StonerAte
                                 switch (Opcode.Substring(2, 2))
                                 {
                                     case "9E":
-                                        SKP_Ex9E(Opcode.Substring(1,1), form);
+                                        SKP_Ex9E(Opcode.Substring(1,1));
                                         form.AddText($"SKP V{Opcode.Substring(1,1)}");
                                         break;
                                     case "A1":
@@ -333,12 +331,12 @@ namespace StonerAte
             if(Opcode.Substring(0, 1) != 1.ToString() && Opcode != "00EE" && Opcode.Substring(0,1) != 2.ToString() && Opcode.Substring(0,1) != "B")
                 Pc = (short) (Pc + 2);
 
-            Console.Clear();
+            /*Console.Clear();
             Console.WriteLine($"PC: {Pc}, I: {I}, OpCode: {Opcode}");
             for (var i = 0; i < 16; i++)
             {
                 Console.WriteLine($"V[{i}] = {V[i]}");
-            }
+            }*/
 
             Thread.Sleep(1000 / Freq);
         }
