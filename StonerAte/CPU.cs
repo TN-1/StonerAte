@@ -80,9 +80,12 @@ namespace StonerAte
         //Represents graphics screen
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
-        public int Freq = 4;
+        public const int Freq = 60;
         //If flag is true, then we update the screen. Otherwise, we wont.
         public bool DrawFlag = false;
+        //Delay and sound timers
+        public byte Dt;
+        public byte St;
                 
         /// <summary>
         /// Initialize all memory to expcted defaults for begin of execution
@@ -278,7 +281,6 @@ namespace StonerAte
                                         form.AddText($"LD V{Opcode.Substring(1,1)}, DT");
                                         break;
                                     case "0A":
-                                        //TODO: Fix this
                                         LD_Fx0A(Opcode.Substring(1,1));
                                         form.AddText($"LD V{Opcode.Substring(1,1)}, K");
                                         break;
@@ -335,9 +337,7 @@ namespace StonerAte
                 Console.WriteLine($"V[{i}] = {V[i]}");
             }
 
-            //TODO: Figure out why the freq line is broke
-            //Thread.Sleep((1 / Freq) * 1000);
-            Thread.Sleep(250);
+            Thread.Sleep(1000 / Freq);
         }
     }
 }

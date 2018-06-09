@@ -28,10 +28,10 @@ namespace StonerAte
         /// </summary>
         public static void Main()
         {
-            Cpu cpu = new Cpu();
+            var cpu = new Cpu();
             
             cpu.Initialize();
-            cpu.LoadRom("TICTAC");
+            cpu.LoadRom("MAZE");
             Console.WriteLine("Init complete");
             new Application().Run(new MainForm(cpu, 10));
         }

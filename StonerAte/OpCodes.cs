@@ -27,6 +27,15 @@ namespace StonerAte
     public partial class Cpu
     {
         Random rnd = new Random();
+
+        /// <summary>
+        /// Jump to location in memory
+        /// </summary>
+        /// <exception cref="NotImplementedException"></exception>
+        public void JP_0NNN()
+        {
+            throw new NotImplementedException();
+        }
         
         /// <summary>
         /// Clears the graphics display
@@ -341,12 +350,17 @@ namespace StonerAte
                 var bits = new BitArray(BitConverter.GetBytes(sprite[i]).ToArray());
                 for (var k = 4; k < 8; k++)
                 {
-                    //TODO: This is wrong, need to fix it.
-                    if (xLoc == 63)
-                        xLoc = 0;
-                    
-                    var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k, yLoc + i];
-                    Gfx[xLoc + k, yLoc + i] = value;
+                    //TODO: This sucks, I need to rework it
+                    if (xLoc + k > 63)
+                    {
+                        var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k - 63, yLoc + i];
+                        Gfx[xLoc + k - 63, yLoc + i] = value;
+                    }
+                    else
+                    {
+                        var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k, yLoc + i];
+                        Gfx[xLoc + k, yLoc + i] = value; 
+                    }
                 }
             }
 
@@ -377,7 +391,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx07(string x)
         {
-            throw new NotImplementedException();
+            V[int.Parse(x, NumberStyles.HexNumber)] = Dt;
         }
 
         /// <summary>
@@ -395,7 +409,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx15(string x)
         {
-            throw new NotImplementedException();
+            Dt = V[int.Parse(x, NumberStyles.HexNumber)];
         }
         
         /// <summary>
@@ -404,7 +418,7 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx18(string x)
         {
-            throw new NotImplementedException();
+            St = V[int.Parse(x, NumberStyles.HexNumber)];
         }
 
         /// <summary>
@@ -431,11 +445,12 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx33(string x)
         {
-            //throw new NotImplementedException();
+            throw new NotImplementedException();
         }
 
         /// <summary>
         /// Stores V0 through Vx into memory starting at location I
+        /// I = I + Vx + 1 after operation
         /// </summary>
         /// <param name="x">Vx</param>
         public void LD_Fx55(string x)
@@ -448,6 +463,7 @@ namespace StonerAte
 
         /// <summary>
         /// Loads from memory starting at location I into V0 through Vx
+        /// I = I + Vx + 1 after operation
         /// </summary>
         /// <param name="x"></param>
         public void LD_Fx65(string x)

@@ -36,8 +36,19 @@ namespace StonerAte
         private readonly TextBox[] _basicsBoxs = new TextBox[5];
         private readonly TextBox[] _regBoxs = new TextBox[16];
         private readonly TextBox _freqBox = new TextBox();
+
+        private readonly Label _sTLabel = new Label
+        {
+            Text = "ST:"
+        };
+
+        private readonly Label _dTLabel = new Label
+        {
+            Text = "DT:"
+        };
+        private readonly TextBox _sTBox = new TextBox();
+        private readonly TextBox _dTBox = new TextBox();
         private bool _isRunning;
-        private int _talines;
 
         public MainForm(Cpu cpu, int scale)
         {
@@ -45,7 +56,7 @@ namespace StonerAte
             var scaleFactor = scale;
 
             Title = "StonerAte";
-            ClientSize = new Size(1000, 1000);
+            ClientSize = new Size(1000, 600);
 
             _drawable.Size = new Size(64 * scaleFactor, 32 * scaleFactor);
             _drawable.Paint += (sender, e) =>
@@ -87,7 +98,14 @@ namespace StonerAte
                 basicsLayout.Add(_basicsBoxs[i]);
                 basicsLayout.EndHorizontal();
             }
-
+            basicsLayout.BeginHorizontal();
+            basicsLayout.Add(_sTLabel);
+            basicsLayout.Add(_sTBox);
+            basicsLayout.EndHorizontal();
+            basicsLayout.BeginHorizontal();
+            basicsLayout.Add(_dTLabel);
+            basicsLayout.Add(_dTBox);
+            basicsLayout.EndHorizontal();
             basicsLayout.EndVertical();
             var basicsBox = new GroupBox
             {
@@ -97,16 +115,20 @@ namespace StonerAte
 
             var regLayout = new DynamicLayout();
             regLayout.BeginVertical();
-            for (var i = 0; i < _regLabels.Length; i++)
+            for (var i = 0; i < 8; i++)
             {
                 _regBoxs[i] = new TextBox {ReadOnly = true};
                 _regLabels[i] = new Label {Text = $"V[{i:X}]"};
+                _regBoxs[i + 8] = new TextBox {ReadOnly = true};
+                _regLabels[i + 8] = new Label {Text = $"V[{i+8:X}]"};
+
                 regLayout.BeginHorizontal();
                 regLayout.Add(_regLabels[i]);
                 regLayout.Add(_regBoxs[i]);
-                regLayout.EndBeginHorizontal();
+                regLayout.Add(_regLabels[i + 8]);
+                regLayout.Add(_regBoxs[i + 8]);
+                regLayout.EndHorizontal();
             }
-
             regLayout.EndVertical();
             var registerBox = new GroupBox
             {
@@ -117,7 +139,10 @@ namespace StonerAte
             var controlLayout = new DynamicLayout();
             controlLayout.BeginVertical();
             controlLayout.BeginHorizontal();
-            controlLayout.Add(new Label().Text = "Freq: ");
+            controlLayout.Add(new Label
+            {
+                Text = "Freq: ",
+            });
             controlLayout.Add(_freqBox);
             controlLayout.EndHorizontal();
             controlLayout.BeginHorizontal();
@@ -132,15 +157,23 @@ namespace StonerAte
             var controlBox = new GroupBox
             {
                 Text = "Controls",
-                Content = controlLayout
+                Content = controlLayout,
             };
 
+            var rom = new TextArea();
+            rom.Size = new Size(200,500);
+            /*for (var i = 0x200; i < 4096; i =+ 2)
+            {
+                rom.Append($"{i:X4} - {_cpu.Memory[i].ToString("X2") + _cpu.Memory[i + 1].ToString("X2")}\n");
+            }*/
+            
             var layout = new PixelLayout();
             layout.Add(_drawable, 10, 10);
             layout.Add(_textArea, (64 * scaleFactor) + 20, 10);
             layout.Add(basicsBox, 10, (32 * scaleFactor) + 20);
-            layout.Add(registerBox, 250, (32 * scaleFactor) + 20);
-            layout.Add(controlBox, 500, (32 * scaleFactor) + 20);
+            layout.Add(registerBox, 260, (32 * scaleFactor) + 20);
+            layout.Add(controlBox, 10, (32 * scaleFactor) + 240);
+            layout.Add(rom, 750, (32 * scaleFactor) + 20);
 
             Content = layout;
             
@@ -159,13 +192,23 @@ namespace StonerAte
             const bool loop = true;
 
             Application.Instance.Invoke(Update());
+            
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
             while (loop)
             {
                 while (_isRunning)
                 {
                     try
                     {
+                        //TODO: For now we can lock the main cycle to 60hz and update the timers from here,
+                        //but eventually we will need to create a second thread maybe(?) so that the timers
+                        //run at an independant speed to the main cycle.
                         _cpu.EmulateCycle(this);
+                        if (_cpu.Dt != 0)
+                            _cpu.Dt--;
+                        if (_cpu.St != 0)
+                            _cpu.St--;
+                        //TODO: make sound timer sound sound.
                         Application.Instance.Invoke(Update());
                         if (!_cpu.DrawFlag)
                             continue;
@@ -179,6 +222,7 @@ namespace StonerAte
                     }
                 }
             }
+            // ReSharper disable once FunctionNeverReturns
         }
 
         /// <summary>
@@ -232,7 +276,10 @@ namespace StonerAte
                     _regBoxs[i].Text = $"{_cpu.V[i]:X4}";
                 }
 
-                _freqBox.Text = _cpu.Freq.ToString();
+                _freqBox.Text = Cpu.Freq.ToString();
+
+                _dTBox.Text = _cpu.Dt.ToString();
+                _sTBox.Text = _cpu.St.ToString();
             };
         }
     }

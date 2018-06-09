@@ -84,14 +84,20 @@
     <Content Include="roms\BLINKY" />
     <Content Include="roms\BLITZ" />
     <Content Include="roms\BRIX" />
-    <Content Include="roms\CONNECT4" />
+    <Content Include="roms\CONNECT4">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="roms\GUESS" />
     <Content Include="roms\HIDDEN" />
     <Content Include="roms\INVADERS" />
     <Content Include="roms\KALEID" />
-    <Content Include="roms\MAZE" />
+    <Content Include="roms\MAZE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="roms\MERLIN" />
-    <Content Include="roms\MISSILE" />
+    <Content Include="roms\MISSILE">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="roms\PONG">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
