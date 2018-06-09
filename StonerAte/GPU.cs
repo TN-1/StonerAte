@@ -48,7 +48,7 @@ namespace StonerAte
         };
         private readonly TextBox _sTBox = new TextBox();
         private readonly TextBox _dTBox = new TextBox();
-        private bool _isRunning;
+        public bool _isRunning;
 
         public MainForm(Cpu cpu, int scale)
         {
@@ -176,6 +176,8 @@ namespace StonerAte
             layout.Add(rom, 750, (32 * scaleFactor) + 20);
 
             Content = layout;
+
+            KeyDown += (sender, args) => { _cpu.Key = args; };
             
             LoadComplete += (sender, args) =>
             {

@@ -21,6 +21,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Eto.Forms;
 
 namespace StonerAte
 {
@@ -371,9 +372,12 @@ namespace StonerAte
         /// Skip next instruction if key with Vx is currently pressed
         /// </summary>
         /// <param name="x">Vx</param>
-        public void SKP_Ex9E(string x)
+        public void SKP_Ex9E(string x, MainForm form)
         {
-            throw new NotImplementedException();
+            if (Key == null) return;
+            if (Key.KeyChar != char.Parse(V[int.Parse(x, NumberStyles.HexNumber)].ToString())) return;
+            Pc += 4;
+            Key = null;
         }
 
         /// <summary>

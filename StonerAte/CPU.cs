@@ -30,6 +30,7 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Threading;
+using Eto.Forms;
 
 // ReSharper disable FieldCanBeMadeReadOnly.Global
 
@@ -86,6 +87,8 @@ namespace StonerAte
         //Delay and sound timers
         public byte Dt;
         public byte St;
+        //Store key event
+        public KeyEventArgs Key;
                 
         /// <summary>
         /// Initialize all memory to expcted defaults for begin of execution
@@ -260,7 +263,7 @@ namespace StonerAte
                                 switch (Opcode.Substring(2, 2))
                                 {
                                     case "9E":
-                                        SKP_Ex9E(Opcode.Substring(1,1));
+                                        SKP_Ex9E(Opcode.Substring(1,1), form);
                                         form.AddText($"SKP V{Opcode.Substring(1,1)}");
                                         break;
                                     case "A1":

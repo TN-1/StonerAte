@@ -31,7 +31,7 @@ namespace StonerAte
             var cpu = new Cpu();
             
             cpu.Initialize();
-            cpu.LoadRom("MAZE");
+            cpu.LoadRom("MISSILE");
             Console.WriteLine("Init complete");
             new Application().Run(new MainForm(cpu, 10));
         }
