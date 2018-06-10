@@ -31,7 +31,8 @@ namespace StonerAte
             var cpu = new Cpu();
             
             cpu.Initialize();
-            cpu.LoadRom("MISSILE");
+            //cpu.LoadRom("Chip-8 Pack/Chip-8 Programs/Chip8 Picture.ch8");
+            cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Missile [David Winter].ch8");
             Console.WriteLine("Init complete");
             new Application().Run(new MainForm(cpu, 10));
         }

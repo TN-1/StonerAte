@@ -80,41 +80,6 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="roms\15PUZZLE" />
-    <Content Include="roms\BLINKY" />
-    <Content Include="roms\BLITZ" />
-    <Content Include="roms\BRIX" />
-    <Content Include="roms\CONNECT4">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\GUESS" />
-    <Content Include="roms\HIDDEN" />
-    <Content Include="roms\INVADERS" />
-    <Content Include="roms\KALEID" />
-    <Content Include="roms\MAZE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\MERLIN" />
-    <Content Include="roms\MISSILE">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\PONG">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\PONG2" />
-    <Content Include="roms\PUZZLE" />
-    <Content Include="roms\SYZYGY" />
-    <Content Include="roms\TANK" />
-    <Content Include="roms\TETRIS" />
-    <Content Include="roms\TICTAC">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="roms\UFO" />
-    <Content Include="roms\VBRIX" />
-    <Content Include="roms\VERS" />
-    <Content Include="roms\WIPEOFF" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Eto\src\Eto.Gtk\Eto.Gtk.csproj">
       <Project>{a33ad3c3-b29b-4c72-9d41-e1db2afb5bc9}</Project>
       <Name>Eto.Gtk</Name>
@@ -123,6 +88,351 @@
       <Project>{7ed42d23-3656-4fb9-8d32-7cf844cc1360}</Project>
       <Name>Eto</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Maze (alt) [David Winter, 199x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Maze (alt) [David Winter, 199x].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Maze [David Winter, 199x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Maze [David Winter, 199x].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Particle Demo [zeroZshadow, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Particle Demo [zeroZshadow, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Sierpinski [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Sirpinski [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Stars [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Trip8 Demo (2008) [Revival Studios].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Trip8 Demo (2008) [Revival Studios].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Zero Demo [zeroZshadow, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Demos\Zero Demo [zeroZshadow, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\15 Puzzle [Roger Ivie] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\15 Puzzle [Roger Ivie].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\15 Puzzle [Roger Ivie].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Addition Problems [Paul C. Moews].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Airplane.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Animal Race [Brian Astle].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Animal Race [Brian Astle].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Astro Dodge [Revival Studios, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Astro Dodge [Revival Studios, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Biorhythm [Jef Winsor].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Biorhythm [Jef Winsor].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Blinky [Hans Christian Egeberg, 1991].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Blinky [Hans Christian Egeberg] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Blitz [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Blitz [David Winter].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Bowling [Gooitzen van der Wal].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Bowling [Gooitzen van der Wal].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Breakout (Brix hack) [David Winter, 1997].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Breakout (Brix hack) [David Winter, 1997].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Breakout [Carmelo Cortez, 1979].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Breakout [Carmelo Cortez, 1979].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Brick (Brix hack, 1990).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Brick (Brix hack, 1990).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Brix [Andreas Gustafsson, 1990].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Cave.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Coin Flipping [Carmelo Cortez, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Coin Flipping [Carmelo Cortez, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Connect 4 [David Winter].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Connect 4 [David Winter].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Craps [Camerlo Cortez, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Craps [Camerlo Cortez, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Deflection [John Fort].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Deflection [John Fort].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Figures.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Filter.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Guess [David Winter] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Guess [David Winter] (alt).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Guess [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Guess [David Winter].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Hi-Lo [Jef Winsor, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Hi-Lo [Jef Winsor, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Hidden [David Winter, 1996].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Hidden [David Winter, 1996].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Kaleidoscope [Joseph Weisbecker, 1978].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Kaleidoscope [Joseph Weisbecker, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Landing.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Lunar Lander (Udo Pernisz, 1979).ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Lunar Lander [Udo Pernisz, 1979].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Mastermind FourRow (Robert Lindley, 1978).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Mastermind FourRow (Robert Lindley, 1978).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Merlin [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Merlin [David Winter].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Missile [David Winter].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Most Dangerous Game [Peter Maruhnic].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Most Dangerous Game [Peter Maruhnic].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Nim [Carmelo Cortez, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Nim [Carmelo Cortez, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Paddles.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Pong (1 player).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Pong (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Pong 2 (Pong hack) [David Winter, 1997].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Pong [Paul Vervalin, 1990].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Pong [Paul Vervalin, 1990].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Programmable Spacefighters [Jef Winsor].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Programmable Spacefighters [Jef Winsor].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Puzzle.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Reversi [Philip Baltzer].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Reversi [Philip Baltzer].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rocket Launch [Jonas Lindstedt].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rocket Launcher.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rocket [Joseph Weisbecker, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rush Hour [Hap, 2006] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rush Hour [Hap, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Rush Hour [Hap, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Russian Roulette [Carmelo Cortez, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Russian Roulette [Carmelo Cortez, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Sequence Shoot [Joyce Weisbecker].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Sequence Shoot [Joyce Weisbecker].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Shooting Stars [Philip Baltzer, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Shooting Stars [Philip Baltzer, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Slide [Joyce Weisbecker].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Slide [Joyce Weisbecker].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Soccer.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Flight.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Intercept [Joseph Weisbecker, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Intercept [Joseph Weisbecker, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Invaders [David Winter] (alt).ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Invaders [David Winter] (alt).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Invaders [David Winter].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Space Invaders [David Winter].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Spooky Spot [Joseph Weisbecker, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Spooky Spot [Joseph Weisbecker, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Squash [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Submarine [Carmelo Cortez, 1978].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Submarine [Carmelo Cortez, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Sum Fun [Joyce Weisbecker].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Sum Fun [Joyce Weisbecker].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Syzygy [Roy Trevino, 1990].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Syzygy [Roy Trevino, 1990].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tank.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tank.txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tapeworm [JDR, 1999].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tetris [Fran Dachille, 1991].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tetris [Fran Dachille, 1991].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tic-Tac-Toe [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Timebomb.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Tron.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\UFO [Lutz V, 1992].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\UFO [Lutz V, 1992].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Vers [JMN, 1991].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Vertical Brix [Paul Robson, 1996].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Wall [David Winter].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Wipe Off [Joseph Weisbecker].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Worm V4 [RB-Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\Worm V4 [RB-Revival Studios, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\X-Mirror.ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Games\ZeroPong [zeroZshadow, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\!hires_information.txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Astro Dodge Hires [Revival Studios, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Astro Dodge Hires [Revival Studios, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Maze [David Winter, 199x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Maze [David Winter, 199x].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Particle Demo [zeroZshadow, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Particle Demo [zeroZshadow, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Sierpinski [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Stars [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Test [Tom Swan, 1979].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Worm V4 [RB-Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Worm V4 [RB-Revival Studios, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Trip8 Hires Demo (2008) [Revival Studios].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Trip8 Hires Demo (2008) [Revival Studios].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\BMP Viewer - Hello (C8 example) [Hap, 2005].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\BMP Viewer - Hello (C8 example) [Hap, 2005].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Chip8 emulator Logo [Garstyciuks].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Chip8 Picture.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Clock Program [Bill Fisher, 1981].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Clock Program [Bill Fisher, 1981].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Delay Timer Test [Matthew Mikolay, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Delay Timer Test [Matthew Mikolay, 2010].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Division Test [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Fishie [Hap, 2005].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Fishie [Hap, 2005].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Framed MK1 [GV Samways, 1980].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Framed MK1 [GV Samways, 1980].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Framed MK2 [GV Samways, 1980].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Framed MK2 [GV Samways, 1980].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\IBM Logo.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Jumping X and O [Harry Kleinberg, 1977].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Jumping X and O [Harry Kleinberg, 1977].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Keypad Test [Hap, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Keypad Test [Hap, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Life [GV Samways, 1980].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Life [GV Samways, 1980].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Minimal game [Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Random Number Test [Matthew Mikolay, 2010].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\Random Number Test [Matthew Mikolay, 2010].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Programs\SQRT Test [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Blockout [Steve Houk].c8x" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Blockout [Steve Houk].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Color Kaleidoscope [Steve Houk, 1978].c8x" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Color Kaleidoscope [Steve Houk, 1978].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ColourTest.c8x" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Maze 2 (ETI660 Hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Music Maker (ETI660 Hybrid) [Peter Collins, 198x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Music Maker (ETI660 Hybrid) [Peter Collins, 198x].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Pong (ETI660 Hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Space Invaders (ETI660 Hybrid) [P. Easdown,198x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Space Invaders (ETI660 Hybrid) [P. Easdown,198x].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\ETI660 Hybrids\Wipeout (ETI660 hybrid) [W.F. Kreykes, 1982].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Bingo [Andrew Modla] (hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Bingo [Andrew Modla] (hybrid).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Blackjack [Andrew Modla] (hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Blackjack [Andrew Modla] (hybrid).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Boot-128 (hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Message Center [Andrew Modla] (hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Message Center [Andrew Modla] (hybrid).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Video Display Drawing Game [Joseph Weisbecker] (hybrid).ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Hybrids\Video Display Drawing Game [Joseph Weisbecker] (hybrid).txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Pinball [Andrew Modla].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\Pinball [Andrew Modla].txt" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8X and Hybrids\SoundTest.c8x" />
+    <Content Include="Resources\Chip-8 Pack\Chip8 Pack - Readme.txt" />
+    <Content Include="Resources\Chip-8 Pack\Latest Updates.txt" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\Mega Minimal [Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\Mega Particle Demo [zeroZshadow, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\Mega Particle Demo [zeroZshadow, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\MegaMaze [David Winter, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\MegaMaze [David Winter, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\MegaSirpinski [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\Twister Demo [Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\MegaChip8 Demos\Twister Demo [Revival Studios, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Bounce [Les Harris].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Car Race Demo [Erik Bryntse, 1991].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Car Race Demo [Erik Bryntse, 1991].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Climax Slideshow - Part 1 [Revival Studios, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Climax Slideshow - Part 1 [Revival Studios, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Climax Slideshow - Part 2 [Revival Studios, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Climax Slideshow - Part 2 [Revival Studios, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Robot.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SCSerpinski [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SCStars  [Sergey Naydenov, 2010].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Super Particle Demo [zeroZshadow, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Super Particle Demo [zeroZshadow, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SuperMaze [David Winter, 199x].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SuperMaze [David Winter, 199x].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SuperTrip8 Demo (2008) [Revival Studios].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\SuperTrip8 Demo (2008) [Revival Studios].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Demos\Worms demo.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Alien [Jonas Lindstedt, 1993].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Alien [Jonas Lindstedt, 1993].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Ant - In Search of Coke [Erin S. Catto].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Blinky [Hans Christian Egeberg, 1991].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Blinky [Hans Christian Egeberg, 1991].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Car [Klaus von Sengbusch, 1994].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Car [Klaus von Sengbusch, 1994].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Field! [Al Roland, 1993] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Field! [Al Roland, 1993].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Field! [Al Roland, 1993].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\H. Piper [Paul Raines, 1991].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\H. Piper [Paul Raines, 1991].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Joust [Erin S. Catto, 1993].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Joust [Erin S. Catto, 1993].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Laser.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Loopz (with difficulty select) [Hap, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Loopz (with difficulty select) [Hap, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Loopz [Andreas Daumann].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Magic Square [David Winter, 1997].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Magic Square [David Winter, 1997].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Matches.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Mines! - The minehunter [David Winter, 1997].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Single Dragon (Bomber Section) [David Nurser, 1993].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Single Dragon (Bomber Section) [David Nurser, 1993].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Single Dragon (Stages 1-2) [David Nurser, 1993].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Single Dragon (Stages 1-2) [David Nurser, 1993].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Sokoban [Hap, 2006] (alt).ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Sokoban [Hap, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Sokoban [Hap, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Spacefight 2091 [Carsten Soerensen, 1992].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Spacefight 2091 [Carsten Soerensen, 1992].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Super Astro Dodge [Revival Studios, 2008].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\Super Astro Dodge [Revival Studios, 2008].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\SuperWorm V3 [RB, 1992].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\SuperWorm V4 [RB-Revival Studios, 2007].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\SuperWorm V4 [RB-Revival Studios, 2007].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\U-Boat [Michael Kemper, 1994].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Games\U-Boat [Michael Kemper, 1994].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer (16x16 tiles) (MAME) [IQ_132].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer (Google) [IQ_132].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Flip-8 logo [Newsdee, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Flip-8 logo [Newsdee, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Kyori (SC example) [Hap, 2005].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Kyori (SC example) [Hap, 2005].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Let's Chip-8! [Koppepan, 2005].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\BMP Viewer - Let's Chip-8! [Koppepan, 2005].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Emutest [Hap, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Emutest [Hap, 2006].txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Font Test [Newsdee, 2006].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Hex Mixt.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Line Demo.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\SC Test.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\SC Test.txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\SCHIP Test [iq_132].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Scroll Test (modified) [Garstyciuks].ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Scroll Test.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\SuperChip Test.ch8" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\SuperChip Test.txt" />
+    <Content Include="Resources\Chip-8 Pack\SuperChip Test Programs\Test128.ch8" />
+    <Content Include="Resources\README" />
+    <Content Include="Resources\roms\15PUZZLE" />
+    <Content Include="Resources\roms\BLINKY" />
+    <Content Include="Resources\roms\BLITZ" />
+    <Content Include="Resources\roms\BRIX" />
+    <Content Include="Resources\roms\CONNECT4" />
+    <Content Include="Resources\roms\EMUTEST" />
+    <Content Include="Resources\roms\GUESS" />
+    <Content Include="Resources\roms\HIDDEN" />
+    <Content Include="Resources\roms\INVADERS" />
+    <Content Include="Resources\roms\KALEID" />
+    <Content Include="Resources\roms\LOGO" />
+    <Content Include="Resources\roms\MAZE" />
+    <Content Include="Resources\roms\MERLIN" />
+    <Content Include="Resources\roms\MISSILE" />
+    <Content Include="Resources\roms\PONG" />
+    <Content Include="Resources\roms\PONG2" />
+    <Content Include="Resources\roms\PUZZLE" />
+    <Content Include="Resources\roms\SYZYGY" />
+    <Content Include="Resources\roms\TANK" />
+    <Content Include="Resources\roms\TETRIS" />
+    <Content Include="Resources\roms\TICTAC" />
+    <Content Include="Resources\roms\UFO" />
+    <Content Include="Resources\roms\VBRIX" />
+    <Content Include="Resources\roms\VERS" />
+    <Content Include="Resources\roms\WIPEOFF" />
+    <Content Include="Resources\tests\C8pic.ch8" />
+    <Content Include="Resources\tests\Cave.ch8" />
+    <Content Include="Resources\tests\Filter.ch8" />
+    <Content Include="Resources\tests\Ibm.ch8" />
+    <Content Include="Resources\tests\Pong3.ch8" />
+    <Content Include="Resources\tests\Rocket2.ch8" />
+    <Content Include="Resources\tests\Tapeworm.ch8" />
+    <Content Include="Resources\tests\X-mirror.ch8" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

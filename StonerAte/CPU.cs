@@ -67,7 +67,7 @@ namespace StonerAte
         //Temp storage for reading rom into RAM
         public byte[] RomBytes;
         //16 length stack to store PC in when jumping to subroutines
-        public short[] Stack = new short[16];
+        public short[] Stack = new short[50];
         //Index register
         public short I;
         //PC - Memory location of current instruction
@@ -128,12 +128,12 @@ namespace StonerAte
         }
 
         /// <summary>
-        /// Loads a specified ROM from /roms to memory ready for execution
+        /// Loads a specified ROM from /Resources to memory ready for execution
         /// </summary>
-        /// <param name="name">Name of rom minus the filetype(assumed .ch8)</param>
+        /// <param name="name">Include path and filename from Resources</param>
         public void LoadRom(string name)
         {
-            RomBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/roms/{name}");
+            RomBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/{name}");
             for (var i = 0; i < RomBytes.Length; i++)
             {
                 //i + 0x200 per mem map
@@ -164,6 +164,10 @@ namespace StonerAte
                         //YAY for nesting! LOL JKS
                         switch (Opcode.Substring(0, 1))
                         {
+                            case "0":
+                                JP_0NNN(Opcode.Substring(1,3));
+                                form.AddText($"JP {Opcode.Substring(1,3)}");
+                                break;
                             case "1":
                                 JP_1nnn(Opcode.Substring(1,3));
                                 form.AddText($"JP {Opcode.Substring(1,3)}");

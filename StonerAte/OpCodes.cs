@@ -17,24 +17,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace StonerAte
 {
     public partial class Cpu
     {
-        Random rnd = new Random();
-
         /// <summary>
         /// Jump to location in memory
         /// </summary>
-        /// <exception cref="NotImplementedException"></exception>
-        public void JP_0NNN()
+        public void JP_0NNN(string n)
         {
-            throw new NotImplementedException();
+            Pc = Convert.ToInt16(n, 16);
         }
         
         /// <summary>
@@ -108,7 +103,7 @@ namespace StonerAte
         /// <param name="k">Value to compare too</param>
         public void SNE_4xkk(string x, string k)
         {
-            if (V[int.Parse(x, NumberStyles.HexNumber)] != Convert.ToByte(k))
+            if (V[int.Parse(x, NumberStyles.HexNumber)] != byte.Parse(k, NumberStyles.HexNumber))
                 Pc = (short)(Pc + 2);
             
         }
@@ -321,49 +316,40 @@ namespace StonerAte
         /// </summary>
         /// <param name="x">Vx</param>
         /// <param name="k">Value to add to number</param>
-        public void RND_Cxkk(string x, byte k)
+        public int RND_Cxkk(string x, byte k)
         {
-            V[int.Parse(x, NumberStyles.HexNumber)] = (byte) (rnd.Next(0, 255) + k);
-            
+            var rnd = new Random();
+            var i = rnd.Next(0, 254);
+            V[int.Parse(x, NumberStyles.HexNumber)] = (byte) (i + k);
+            return i;
         }
 
         /// <summary>
-        /// Draw n-byte sprite at location Vx, Vy. Set VF if collision.
+        /// Draw n-byte high sprite at location Vx, Vy. Set VF if collision.
         /// </summary>
         /// <param name="x">Vx</param>
         /// <param name="y">Vy</param>
         /// <param name="n">Length of sprite</param>
         public void DRW_Dxyn(string x, string y, byte n)
         {
-            //TODO: Need to add collision detection
-            var sprite = new List<byte>();
-            var xLoc = V[int.Parse(x, NumberStyles.HexNumber)];
-            var yLoc = V[int.Parse(y, NumberStyles.HexNumber)];
-            
-            for (int i = I; i < I + n; i++)
+            for (var i = I; i < I + n; i++)
             {
-                sprite.Add(Memory[i]);
-            }
-
-            for (var i = 0; i < sprite.Count; i++)
-            {
-                var bits = new BitArray(BitConverter.GetBytes(sprite[i]).ToArray());
-                for (var k = 4; k < 8; k++)
+                var bin = Convert.ToString(Memory[i], 2).ToCharArray();
+                for (var j = 0; j < bin.Length; j++)
                 {
-                    //TODO: This sucks, I need to rework it
-                    if (xLoc + k > 63)
-                    {
-                        var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k - 63, yLoc + i];
-                        Gfx[xLoc + k - 63, yLoc + i] = value;
-                    }
-                    else
-                    {
-                        var value = Convert.ToInt32(bits[k]) ^ Gfx[xLoc + k, yLoc + i];
-                        Gfx[xLoc + k, yLoc + i] = value; 
-                    }
+                    var xx = V[int.Parse(x, NumberStyles.HexNumber)] + j;
+                    var yy = V[int.Parse(y, NumberStyles.HexNumber)] + i - I;
+
+                    if (xx > 63 || yy > 31) continue; //TODO: Maybe implement partial wraparound as http://laurencescotford.co.uk/?p=304 ???
+                    
+                    var newVal = 0;
+                    if (bin[j] == 49) newVal = 1;
+                    
+                    if (Gfx[xx, yy] == 1 && newVal == 1) V[15] = 1;
+                    Gfx[xx, yy] = Gfx[xx, yy] ^ newVal;
                 }
             }
-
+            
             DrawFlag = true;
         }
 
@@ -374,7 +360,11 @@ namespace StonerAte
         public void SKP_Ex9E(string x)
         {
             if (Key == null) return;
-            if (Key.KeyChar != char.Parse(V[int.Parse(x, NumberStyles.HexNumber)].ToString())) return;
+            if (Key.KeyChar != char.Parse(V[int.Parse(x, NumberStyles.HexNumber)].ToString()))
+            {
+                Key = null;
+                return;
+            }
             Pc += 4;
             Key = null;
         }
@@ -385,7 +375,14 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void SKNP_ExA1(string x)
         {
-            throw new NotImplementedException();
+            if (Key == null) return;
+            if (Key.KeyChar == char.Parse(V[int.Parse(x, NumberStyles.HexNumber)].ToString()))
+            {
+                Key = null;
+                return;
+            }
+            Pc += 4;
+            Key = null;
         }
 
         /// <summary>
@@ -403,7 +400,10 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx0A(string x)
         {
-            throw new NotImplementedException();
+            loop:
+            if (Key == null) goto loop;
+            V[int.Parse(x, NumberStyles.HexNumber)] = (byte)(Key.KeyChar);
+            Key = null;
         }
         
         /// <summary>
@@ -448,7 +448,9 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx33(string x)
         {
-            throw new NotImplementedException();
+            Memory[I] = (byte)(V[int.Parse(x, NumberStyles.HexNumber)] * 100);
+            Memory[I + 1] = (byte)((V[int.Parse(x, NumberStyles.HexNumber)] >> 4 )* 10);
+            Memory[I + 2] = (byte)(V[int.Parse(x, NumberStyles.HexNumber)] & 0xf);
         }
 
         /// <summary>

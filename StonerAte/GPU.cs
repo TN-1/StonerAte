@@ -63,17 +63,14 @@ namespace StonerAte
             _drawable.Size = new Size(64 * scaleFactor, 32 * scaleFactor);
             _drawable.Paint += (sender, e) =>
             {
-                e.Graphics.Clear(new Color(255, 255, 255));
-
+                var black = new Color(0,0,0);
+                var white = new Color(255,255,255);
                 for (var x = 0; x < _cpu.Gfx.GetLength(0); x++)
                 {
                     for (var y = 0; y < _cpu.Gfx.GetLength(1); y++)
                     {
-                        if (_cpu.Gfx[x, y] == 1)
-                        {
-                            e.Graphics.FillRectangle(new Color(0, 0, 0), x * scaleFactor, y * scaleFactor, scaleFactor,
-                                scaleFactor);
-                        }
+                        e.Graphics.FillRectangle(_cpu.Gfx[x, y] == 1 ? white : black, x * scaleFactor, y * scaleFactor,
+                            scaleFactor, scaleFactor);
                     }
                 }
             };
@@ -163,10 +160,10 @@ namespace StonerAte
             };
 
             var rom = new TextArea {Size = new Size(200, 500)};
-            /*for (var i = 0x200; i < 4096; i =+ 2)
-{
-    rom.Append($"{i:X4} - {_cpu.Memory[i].ToString("X2") + _cpu.Memory[i + 1].ToString("X2")}\n");
-}*/
+            for (var i = 0x200; i < 4096; i++)
+            {
+                rom.Append($"{i:X4} - {_cpu.Memory[i]:X2}\n");
+            }
             
             var layout = new PixelLayout();
             layout.Add(_drawable, 10, 10);
