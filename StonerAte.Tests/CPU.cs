@@ -16,7 +16,7 @@ namespace StonerAte.Tests
         {
             Cpu cpu = new Cpu();
             cpu.Initialize();
-            cpu.LoadRom("Chip8 Picture");
+            cpu.LoadRom("Chip-8 Pack/Chip-8 Programs/Chip8 Picture.ch8");
 
             //TODO: Account for fontset in this test
             for (var i = 100; i < 512; i++)

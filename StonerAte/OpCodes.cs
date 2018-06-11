@@ -30,6 +30,7 @@ namespace StonerAte
         public void JP_0NNN(string n)
         {
             Pc = Convert.ToInt16(n, 16);
+            Pc -= 2;
         }
         
         /// <summary>
@@ -43,8 +44,7 @@ namespace StonerAte
                 {
                     Gfx[x, y] = 0;
                 }
-            }
-            
+            } 
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace StonerAte
         {
             if(Sp != 0)
                 Sp--;
-            Pc = Stack[Sp];            
+            Pc = Stack[Sp];
         }
 
         /// <summary>
@@ -63,7 +63,8 @@ namespace StonerAte
         /// <param name="n">Memory address to jump too</param>
         public void JP_1nnn(string n)
         {
-            Pc = Convert.ToInt16(n, 16); 
+            Pc = short.Parse(n, NumberStyles.HexNumber);
+            Pc -= 2;
         }
 
         /// <summary>
@@ -76,12 +77,12 @@ namespace StonerAte
 
             if (Sp > Stack.Length)
             {
-                Sp--;
                 throw new Exception("SP exceeds length of stack");
             }
 
             Stack[Sp] = Pc;
             Pc = short.Parse(n, NumberStyles.HexNumber);
+            Pc -= 2;
         }
 
         /// <summary>
@@ -92,8 +93,8 @@ namespace StonerAte
         public void SE_3xkk(string x, string k)
         {
             if (V[int.Parse(x, NumberStyles.HexNumber)] == byte.Parse(k, NumberStyles.HexNumber))
-                Pc = (short)(Pc + 2);
-            
+                Pc += 2;
+
         }
 
         /// <summary>
@@ -104,8 +105,7 @@ namespace StonerAte
         public void SNE_4xkk(string x, string k)
         {
             if (V[int.Parse(x, NumberStyles.HexNumber)] != byte.Parse(k, NumberStyles.HexNumber))
-                Pc = (short)(Pc + 2);
-            
+                Pc += 2;
         }
 
         /// <summary>
@@ -116,8 +116,8 @@ namespace StonerAte
         public void SE_5xy0(string x, string y)
         {
             if (V[int.Parse(x, NumberStyles.HexNumber)] == V[int.Parse(y, NumberStyles.HexNumber)])
-                Pc = (short)(Pc + 2);
-            
+                Pc += 2;
+
         }
 
         /// <summary>
@@ -365,7 +365,7 @@ namespace StonerAte
                 Key = null;
                 return;
             }
-            Pc += 4;
+            Pc += 2;
             Key = null;
         }
 
@@ -381,7 +381,7 @@ namespace StonerAte
                 Key = null;
                 return;
             }
-            Pc += 4;
+            Pc += 2;
             Key = null;
         }
 

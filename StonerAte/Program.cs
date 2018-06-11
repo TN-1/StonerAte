@@ -32,7 +32,11 @@ namespace StonerAte
             
             cpu.Initialize();
             //cpu.LoadRom("Chip-8 Pack/Chip-8 Programs/Chip8 Picture.ch8");
-            cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Missile [David Winter].ch8");
+            //cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Missile [David Winter].ch8");
+            //cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Lunar Lander (Udo Pernisz, 1979).ch8");
+            //cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Space Invaders [David Winter] (alt).ch8");
+            //cpu.LoadRom("Chip-8 Pack/Chip-8 Games/Kaleidoscope [Joseph Weisbecker, 1978].ch8");
+            cpu.LoadRom("roms/BC_test.ch8");
             Console.WriteLine("Init complete");
             new Application().Run(new MainForm(cpu, 10));
         }

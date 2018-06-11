@@ -67,7 +67,7 @@ namespace StonerAte
         //Temp storage for reading rom into RAM
         public byte[] RomBytes;
         //16 length stack to store PC in when jumping to subroutines
-        public short[] Stack = new short[50];
+        public short[] Stack = new short[16];
         //Index register
         public short I;
         //PC - Memory location of current instruction
@@ -185,7 +185,7 @@ namespace StonerAte
                                 form.AddText($"SNE {Opcode.Substring(1,1)}, {Opcode.Substring(2,2)}");
                                 break;
                             case "5":
-                                SE_5xy0(Opcode.Substring(1,1), Opcode.Substring(2,2));
+                                SE_5xy0(Opcode.Substring(1,1), Opcode.Substring(2,1));
                                 form.AddText($"SE {Opcode.Substring(1,1)}, {Opcode.Substring(2,2)}");
                                 break;
                             case "6":
@@ -332,15 +332,7 @@ namespace StonerAte
                 }
             
             //Inc PC to next instruction
-            if(Opcode.Substring(0, 1) != 1.ToString() && Opcode != "00EE" && Opcode.Substring(0,1) != 2.ToString() && Opcode.Substring(0,1) != "B")
-                Pc = (short) (Pc + 2);
-
-            /*Console.Clear();
-            Console.WriteLine($"PC: {Pc}, I: {I}, OpCode: {Opcode}");
-            for (var i = 0; i < 16; i++)
-            {
-                Console.WriteLine($"V[{i}] = {V[i]}");
-            }*/
+            Pc = (short) (Pc + 2);
 
             Thread.Sleep(1000 / Freq);
         }
