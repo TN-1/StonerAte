@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Globalization;
-// ReSharper disable MemberCanBePrivate.Global
 
 namespace StonerAte
 {
@@ -319,7 +318,7 @@ namespace StonerAte
         public int RND_Cxkk(string x, byte k)
         {
             var rnd = new Random();
-            var i = rnd.Next(0, 254);
+            var i = rnd.Next(0, 254 - k);
             V[int.Parse(x, NumberStyles.HexNumber)] = (byte) (i + k);
             return i;
         }
@@ -448,9 +447,10 @@ namespace StonerAte
         /// <param name="x">Vx</param>
         public void LD_Fx33(string x)
         {
-            Memory[I] = (byte)(V[int.Parse(x, NumberStyles.HexNumber)] * 100);
-            Memory[I + 1] = (byte)((V[int.Parse(x, NumberStyles.HexNumber)] >> 4 )* 10);
-            Memory[I + 2] = (byte)(V[int.Parse(x, NumberStyles.HexNumber)] & 0xf);
+            var s = V[int.Parse(x, NumberStyles.HexNumber)].ToString();
+            Memory[I] = byte.Parse(s.Substring(0, 1), NumberStyles.Integer);
+            Memory[I + 1] = byte.Parse(s.Substring(1, 1), NumberStyles.Integer);
+            Memory[I + 2] = byte.Parse(s.Substring(2, 1), NumberStyles.Integer);
         }
 
         /// <summary>
@@ -464,6 +464,8 @@ namespace StonerAte
             {
                 Memory[I + i] = V[i];
             }
+
+            I = (short)(I + V[int.Parse(x, NumberStyles.HexNumber)] + 1);
         }
 
         /// <summary>
@@ -477,6 +479,8 @@ namespace StonerAte
             {
                 V[i] = Memory[I + i];
             }
+
+            I = (short) (I + V[int.Parse(x, NumberStyles.HexNumber)] + 1);
         }
     }
 }

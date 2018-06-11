@@ -24,6 +24,20 @@ namespace StonerAte.Tests
             
             Assert.AreEqual(short.Parse(jumpTo, NumberStyles.HexNumber), cpu.Pc);
         }
+        
+        [Test]
+        public void JP_0nnn()
+        {
+            const string jumpTo = "250";
+            var cpu = new Cpu();
+            cpu.Initialize();
+            
+            cpu.JP_0NNN(jumpTo);
+            cpu.Pc += 2;
+            
+            Assert.AreEqual(short.Parse(jumpTo, NumberStyles.HexNumber), cpu.Pc);
+        }
+
 
         /// <summary>
         /// Verifies that we can return from a subroutine
@@ -164,7 +178,7 @@ namespace StonerAte.Tests
         {
             var cpu = new Cpu();
             cpu.Initialize();
-            byte value = 0x069;
+            const byte value = 0x069;
             
             cpu.LD_6xkk("A", value);
             
@@ -180,7 +194,7 @@ namespace StonerAte.Tests
             var cpu = new Cpu();
             cpu.Initialize();
             cpu.V[2] = 0x020;
-            byte value = 0x010;
+            const byte value = 0x010;
             
             cpu.ADD_7xkk("2", value);
             
@@ -406,7 +420,7 @@ namespace StonerAte.Tests
         {
             var cpu = new Cpu();
             cpu.Initialize();
-            byte value = 0x069;
+            const byte value = 0x069;
             
             cpu.LD_Annn(value);
             
@@ -422,13 +436,166 @@ namespace StonerAte.Tests
             var cpu = new Cpu();
             cpu.Initialize();
             cpu.V[0] = 0x020;
-            short n = 0x300;
+            const short n = 0x300;
             
             cpu.JP_Bnnn(n);
             
             Assert.AreEqual(0x320, cpu.Pc);
         }
+
+        /// <summary>
+        /// Verifies that we can generate a random number
+        /// </summary>
+        [Test]
+        public void RND_Cxkk()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            var b = byte.Parse("050", NumberStyles.HexNumber);
+            
+            var i = cpu.RND_Cxkk("4", b);
+            
+            Assert.AreEqual(b + i, cpu.V[4]);
+        }
+
+        /// <summary>
+        /// Verifies that we can save the value of the delay timer
+        /// </summary>
+        [Test]
+        public void LD_Fx07()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.Dt = 25;
+            
+            cpu.LD_Fx07("0");
+            
+            Assert.AreEqual(25, cpu.V[0]);
+        }
         
+        /// <summary>
+        /// Verfies that we can set the delay timer
+        /// </summary>
+        [Test]
+        public void LD_Fx15()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.V[0] = 25;
+            
+            cpu.LD_Fx15("0");
+            
+            Assert.AreEqual(25, cpu.Dt);
+        }
         
+        /// <summary>
+        /// Verfies that we can set the sound timer
+        /// </summary>
+        [Test]
+        public void LD_Fx18()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.V[0] = 69;
+            
+            cpu.LD_Fx18("0");
+            
+            Assert.AreEqual(69, cpu.St);
+        }
+        
+        /// <summary>
+        /// Verifies that we can add a value to I
+        /// </summary>
+        [Test]
+        public void ADD_Fx1E()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.V[0] = 25;
+            cpu.I = 44;
+            
+            cpu.ADD_Fx1E("0");
+            
+            Assert.AreEqual(69, cpu.I);
+        }
+        
+        /// <summary>
+        /// Verifies that we can locate a sprite into I
+        /// </summary>
+        [Test]
+        public void LD_Fx29()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.V[0] = 0x00D;
+            
+            cpu.LD_Fx29("0");
+            
+            Assert.AreEqual(65, cpu.I);
+        }
+        
+        /// <summary>
+        /// Verifies that we can perform a register dump into memory
+        /// </summary>
+        [Test]
+        public void LD_Fx55()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.I = 0x250;
+            cpu.V[0] = 0x001;
+            cpu.V[1] = 0x001;
+            cpu.V[2] = 0x001;
+            cpu.V[3] = 0x001;
+            
+            cpu.LD_Fx55("4");
+
+            Assert.AreEqual(0x001, cpu.Memory[0x250]);
+            Assert.AreEqual(0x001, cpu.Memory[0x251]);
+            Assert.AreEqual(0x001, cpu.Memory[0x252]);
+            Assert.AreEqual(0x001, cpu.Memory[0x253]);
+            Assert.AreEqual(0x251, cpu.I);
+        }
+        
+        /// <summary>
+        /// Verifies that we can load registers from memory
+        /// </summary>
+        [Test]
+        public void LD_Fx65()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.I = 0x250;
+            cpu.Memory[0x250] = 0x001;
+            cpu.Memory[0x251] = 0x001;
+            cpu.Memory[0x252] = 0x001;
+            cpu.Memory[0x253] = 0x001;
+            
+            cpu.LD_Fx65("4");
+
+            Assert.AreEqual(0x001, cpu.V[0]);
+            Assert.AreEqual(0x001, cpu.V[1]);
+            Assert.AreEqual(0x001, cpu.V[2]);
+            Assert.AreEqual(0x001, cpu.V[3]);
+            Assert.AreEqual(0x251, cpu.I);
+        }
+
+        /// <summary>
+        /// Verifies that we can perform a BCD operation
+        /// </summary>
+        [Test]
+        public void LD_Fx33()
+        {
+            var cpu = new Cpu();
+            cpu.Initialize();
+            cpu.V[3] = 123;
+            cpu.I = 0x200;
+            
+            cpu.LD_Fx33("3");
+            
+            Assert.AreEqual(1, cpu.Memory[0x200]);
+            Assert.AreEqual(2, cpu.Memory[0x201]);
+            Assert.AreEqual(3, cpu.Memory[0x202]);
+        }
     }
 }
