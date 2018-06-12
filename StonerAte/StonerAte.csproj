@@ -247,7 +247,9 @@
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Particle Demo [zeroZshadow, 2008].txt" />
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Sierpinski [Sergey Naydenov, 2010].ch8" />
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Stars [Sergey Naydenov, 2010].ch8" />
-    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Test [Tom Swan, 1979].ch8" />
+    <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Test [Tom Swan, 1979].ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Worm V4 [RB-Revival Studios, 2007].ch8" />
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Hires Worm V4 [RB-Revival Studios, 2007].txt" />
     <Content Include="Resources\Chip-8 Pack\Chip-8 Hires\Trip8 Hires Demo (2008) [Revival Studios].ch8" />
@@ -319,14 +321,26 @@
     <Content Include="Resources\roms\VBRIX" />
     <Content Include="Resources\roms\VERS" />
     <Content Include="Resources\roms\WIPEOFF" />
-    <Content Include="Resources\tests\C8pic.ch8" />
-    <Content Include="Resources\tests\Cave.ch8" />
-    <Content Include="Resources\tests\Filter.ch8" />
-    <Content Include="Resources\tests\Ibm.ch8" />
-    <Content Include="Resources\tests\Pong3.ch8" />
+    <Content Include="Resources\tests\C8pic.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tests\Cave.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tests\Filter.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tests\Ibm.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\tests\Pong3.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\tests\Rocket2.ch8" />
     <Content Include="Resources\tests\Tapeworm.ch8" />
-    <Content Include="Resources\tests\X-mirror.ch8" />
+    <Content Include="Resources\tests\X-mirror.ch8">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

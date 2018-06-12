@@ -79,7 +79,7 @@ namespace StonerAte
         //Represents graphics screen
         public int [,] Gfx = new int[64,32];
         //Set clock speed of execution in hz
-        public const int Freq = 240;
+        public const int Freq = 250;
         //If flag is true, then we update the screen. Otherwise, we wont.
         public bool DrawFlag = false;
         //Delay and sound timers
@@ -133,7 +133,7 @@ namespace StonerAte
         /// <param name="name">Include path and filename from Resources</param>
         public void LoadRom(string name)
         {
-            RomBytes = File.ReadAllBytes($"{AppDomain.CurrentDomain.BaseDirectory}/Resources/{name}");
+            RomBytes = File.ReadAllBytes(name);
             for (var i = 0; i < RomBytes.Length; i++)
             {
                 //i + 0x200 per mem map

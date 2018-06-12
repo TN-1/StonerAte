@@ -55,6 +55,14 @@ namespace StonerAte
         public MainForm(Cpu cpu, int scale)
         {
             _cpu = cpu;
+
+            var dia = new OpenFileDialog {MultiSelect = false};
+            var result = dia.ShowDialog(this);
+            if (result == DialogResult.Ok || result == DialogResult.Yes)
+                _cpu.LoadRom(dia.FileName);
+            else
+                return;
+            
             var scaleFactor = scale;
 
             Title = "StonerAte";

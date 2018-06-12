@@ -97,13 +97,13 @@ namespace StonerAte
         }
 
         /// <summary>
-        /// Skip next instruction if Vk != k
+        /// Skip next instruction if Vx != k
         /// </summary>
         /// <param name="x">Register to source</param>
         /// <param name="k">Value to compare too</param>
         public void SNE_4xkk(string x, string k)
         {
-            if (V[int.Parse(x, NumberStyles.HexNumber)] != byte.Parse(k, NumberStyles.HexNumber))
+            if (V[int.Parse(x, NumberStyles.HexNumber)] != byte.Parse(k, NumberStyles.HexNumber)) 
                 Pc += 2;
         }
 
